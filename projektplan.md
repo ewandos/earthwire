@@ -1,5 +1,4 @@
-# Featurelist
-
+# MS1 | Spieler-Movement & Combat | KW 17 - 18
 ## Frame (KW 17/1)
 - Es gibt zwei Klassen von Objekten: *Flugzeug* und *Projektil*.
 - Aus *Fugzeug* erben sowohl das Spieler-Flugzeug und die KI ihre Objekte.
@@ -20,6 +19,7 @@
 - Die Größe des *Projektils* ist variable (für Grafiken).
 - Beim Abschuss des *Projektils* wird ein Sound abgespielt (Platzhaltersounds reichen vorerst).
 
+# MS2 | Enemies | KW 18 - 20
 ## Gegner (Kollision) (KW 18/2)
 - Der Spieler kann mit statischen Gegner kollidieren.
 - Bei Kollision werden beide Flugzeuge zerstört, in dem ihre Lebenspunkte auf 0 fallen.
@@ -43,6 +43,7 @@
 - Sie sollen sich nicht vertikal bewegen, da sonst die Gefahr besteht, dass sie sich gegenseitig treffen.
 - Wenn die Gegner den Bildschirm verlassen werden sie zerstört.
 
+# MS3 | Stats & Ressources | KW 20 - 21
 ## Statistiken (KW 20/2)
 - Beim Zerstören eines Gegner durch ein *Projektil* des Spielers wird eine Variable *Punkte* erhöht.
 - Die Punkte werden als Zahl angezeigt.
@@ -56,6 +57,7 @@
 - Mit dem *B-Knopf* lädt sich über eine provisorische Zeit der Balken der Munition wieder auf.
 - Nach dem Aufladen ist das Schießen wieder möglich.
 
+# MS4 | Level & Score | KW 21 - 24
 ## Gegner (Spawn) (KW 21/2)
 - Zufällig werden Gegner am rechten Bildschirmrand erscheinen.
 - Über den Verlauf der Zeit erscheinen mehr Gegner, die öfter schießen.
@@ -75,9 +77,14 @@
 - Die Gegner bewegen sich nicht mehr und schießen nicht.
 - Beim betätigen des *A-Knopfs* wird das Spiel fortgesetzt.
 
+# MS5 | Roundup 
 ## Grafik (KW 23/2)
 - Die Platzhaltergrafiken werden ausgetauscht.
 - Die Kollision funktioniert weiterhin.
+
+## Polishing (KW 24/1)
+- Sounds & Grafiken werden verfeinert
+- Bug Fixes
 
 ## Hintergrundgrafik (optional)
 - Eine Hintergrundgrafik wird eingefügt.
