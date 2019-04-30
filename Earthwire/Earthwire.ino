@@ -44,6 +44,9 @@ void loop() {
   // clear the previous screen
   gb.display.clear();
   if (p1.Life < 1)
+  {
+    
+  }
     //TODO: End Screen; Also, this check probably should be only called after a collission has been registered
 
   p1.Draw();

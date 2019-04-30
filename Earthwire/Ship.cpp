@@ -25,16 +25,28 @@ void Ship::Move(char dir)
   switch(dir)
   {
     case 'w':
-    this->x--;
+    if(this->x>0)
+    {
+      this->x--;      
+    }
     break;
     case 'e':
-    this->x++;
+    if(this->x+this->sizeX<gb.display.width())
+    {
+      this->x++;      
+    }
     break;
     case 'n':
-    this->y--;
+    if(this->y>0)
+    {
+      this->y--;      
+    }
     break;
     case 's':
-    this->y++;
+    if(this->y+this->sizeY<gb.display.height())
+    {
+      this->y++;      
+    }
     break;
     default:
     break;
