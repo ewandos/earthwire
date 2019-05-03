@@ -25,6 +25,15 @@
  * Breite:    12
  * Höhe:      15
  * 
+ * DataName:  hullSpriteData
+ * Funktion:  Icon für Rüstung
+ * Breite:    5
+ * Höhe:      6
+ * 
+ * DataName:  ammuSpriteData
+ * Funktion:  Icon für Munition
+ * Breite:    3
+ * Höhe:      6
  * ---------------------
  * Documentation zum Nachlesen: https://gamebuino.com/academy/standalone/add-images-to-your-games
 */
@@ -71,4 +80,34 @@ const uint8_t enemySpriteData[] = {
   0x22, 0x22, 0x66, 0x22, 0x22, 0x22,
   0x22, 0x22, 0x66, 0x22, 0x22, 0x22,
   0x22, 0x22, 0x62, 0x22, 0x22, 0x22,
+};
+
+const uint8_t hullSpriteData[] = {
+  5, 6, // width, heigth
+  1, 0, // frames
+  0, // frame loop
+  0x02, // transparent color
+  1, // color mode
+
+  0x99, 0xAA, 0xA2,
+  0x9A, 0xAA, 0xA2,
+  0x9A, 0xAA, 0xA2,
+  0xAA, 0xAA, 0xA2,
+  0x2A, 0xAA, 0x22,
+  0x22, 0xA2, 0x22,
+};
+
+const uint8_t ammuSpriteData[] = {
+  3, 6, // width, heigth
+  1, 0, // frames
+  0, // frame loop
+  0x02, // transparent color
+  1, // color mode
+
+  0x28, 0x22,
+  0x88, 0x82,
+  0x88, 0x82,
+  0x88, 0x82,
+  0x88, 0x82,
+  0x44, 0x42,
 };
