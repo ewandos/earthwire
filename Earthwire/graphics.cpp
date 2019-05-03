@@ -1,3 +1,5 @@
+#include <Gamebuino-Meta.h>
+
 /* 
  * ====================
  * GRAFIKEN & ANIMATION
@@ -7,43 +9,45 @@
  * Jede Grafik besteht aus zwei Teilen. Den META-Daten (Festlegung der Pixel, Höhe, Breite, Loop etc.)
  * und dem eigentlichen Bild, was sich dann per Aufruf auf dem Display zeichnen lassen kann.
  * Zum zeichnen einer Grafik diese Datei includen und zum eigentlichen Ausgeben
+ * Ein Image mit " Image SPRITENAMEN(SPRITENAMEN_DATA); " erstellen und mit
  * " gb.display.drawImage(XKOORDINATE, YKOORDINATE, SPRITENAMEN); " verwenden.
  * 
  * ---------------------
  * ALLE SPRITES:
  * 
- * Name:      playerSprite
+ * DataName:  playerSpriteData
  * Funktion:  Grafik für den Spieler
- * Breite:    8
+ * Breite:    7
  * Höhe:      9
+ * 
+ * DataName:  enemySpriteData
+ * Funktion:  Grafik für den Gegner
+ * Breite:    12
+ * Höhe:      15
  * 
  * ---------------------
  * Documentation zum Nachlesen: https://gamebuino.com/academy/standalone/add-images-to-your-games
 */
 
-
-
 /* === v === ROHDATEN === v === */
 
 const uint8_t playerSpriteData[] = {
-  8, 9, // width, heigth
+  7, 9, // width, heigth
   1, 0, // frames
   0, // frame loop
   0x02, // transparent color
   1, // color mode
 
-  0x22, 0x22, 0x2B, 0x22,
-  0x22, 0x22, 0xBB, 0x22,
-  0x22, 0x22, 0x3B, 0x22,
-  0x2B, 0x22, 0x3B, 0xB2,
-  0x23, 0xBC, 0xBB, 0xB7,
-  0x2B, 0x22, 0x3B, 0xB2,
-  0x22, 0x22, 0x3B, 0x22,
-  0x22, 0x22, 0xBB, 0x22,
-  0x22, 0x22, 0x2B, 0x22,
+  0x22, 0x22, 0xB2, 0x22,
+  0x22, 0x2B, 0xB2, 0x22,
+  0x22, 0x23, 0xB2, 0x22,
+  0xB2, 0x23, 0xBB, 0x22,
+  0x3B, 0xCB, 0xBB, 0x72,
+  0xB2, 0x23, 0xBB, 0x22,
+  0x22, 0x23, 0xB2, 0x22,
+  0x22, 0x2B, 0xB2, 0x22,
+  0x22, 0x22, 0xB2, 0x22,
 };
-
-Image playerSprite(playerSpriteData);
 
 const uint8_t enemySpriteData[] = {
   12, 15, // width, heigth
@@ -68,5 +72,3 @@ const uint8_t enemySpriteData[] = {
   0x22, 0x22, 0x66, 0x22, 0x22, 0x22,
   0x22, 0x22, 0x62, 0x22, 0x22, 0x22,
 };
-
-Image enemySprite(enemySpriteData);

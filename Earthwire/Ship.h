@@ -1,5 +1,4 @@
-
-
+#include <Gamebuino-Meta.h>
 
 class Ship 
 {
@@ -7,35 +6,28 @@ public:
     Ship(int, int);
     Ship();
     ~Ship();
-    void Draw();
-    void Move(char);
-    int Life = 100;
-    int x, y = 0;
-    int sizeX = 5; //TODO: Not 5, but variable
+    
+    // Variables
+    int life = 100;
+    int x = 0;  // Coordinates 
+    int y = 0;  
+    int sizeX = 5;  // Size for Collision
     int sizeY = 5;
-
+    
+    // Functions
+    void Draw();
+    void Move(char);  // Changes Coordinates based on Input
 };
 
 class Player : public Ship
 {
 public:
   Player(int, int, char);
-  char Name;
+  
+  // Variables
+  char name;
   int score;
   int life;
-};
-
-class Projectile
-{
-  public:
-    Projectile(int, int);
-    Projectile();
-    ~Projectile();
-    void Draw();
-    int speedX;
-    int speedY;
-    int x;
-    int y;
 };
 
 class Enemy : public Ship
@@ -46,3 +38,19 @@ public:
   ~Enemy();
 };
 
+class Projectile
+{
+  public:
+    Projectile(int, int);
+    Projectile();
+    ~Projectile();
+    
+    // Variables
+    int speedX;
+    int speedY;
+    int x;
+    int y;
+    
+    // Functions
+    void draw();
+};
