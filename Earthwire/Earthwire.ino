@@ -1,14 +1,14 @@
 #include <Gamebuino-Meta.h>
 #include "Ship.h"
 
- Player p1(8, 9, 'a');
- Projectile* ProjArr [5] = {nullptr}; //the purpose of this array is to limit the stuff that gets drawn on screen; might be able to get away with more than 5
- int i = 0;  
+Player p1(8, 9, 'a');
+Projectile* ProjArr [5] = {nullptr}; //the purpose of this array is to limit the stuff that gets drawn on screen; might be able to get away with more than 5
+int i = 0;  
+
 
 ///////////////////////////////////// SETUP
 void setup() {
   gb.begin();
-
 }
 
 ///////////////////////////////////// LOOP
@@ -41,11 +41,19 @@ void loop() {
   // Spawn new Projectile (!Testing!)
   if (gb.buttons.pressed(BUTTON_A))
   {
-    ProjArr[i] = new Projectile(p1.x + 15, p1.y + 15);
+    if (ProjArr[i] != nullptr)
+    {
+      delete ProjArr[i];
+      ProjArr[i] = nullptr;
+    }
+    ProjArr[i] = new Projectile(p1.x, p1.y, 1); //giving it 1 speedX for testing
     i++;
-    if ( i >= 5)
-    i = 0;
+    if ( i >= 5 )
+    {
+      i = 0;
+    }
   }
+
 
   // GameOver-Condition (should be only called after a collission has been registered)
   if (p1.life < 1)
@@ -56,6 +64,11 @@ void loop() {
   // clear the previous screen
   gb.display.clear();
 
+  //debug RAM print
+  uint16_t ram = gb.getFreeRam();
+  gb.display.print("RAM:");
+  gb.display.println(ram);
+
   /* 
    * DRAWING
    */ 
@@ -64,6 +77,14 @@ void loop() {
   for (int j = 0; j < 5; j++)
   {
     if (ProjArr[j] != nullptr)
-      ProjArr[j]->draw();
+    {
+      if(ProjArr[j] -> Move())
+      {
+        delete ProjArr[j];
+        ProjArr[j] = nullptr;
+      }
+      if(ProjArr[j] != nullptr)
+        ProjArr[j] -> Draw();
+    }
   }
 }

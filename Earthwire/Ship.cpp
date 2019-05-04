@@ -1,5 +1,6 @@
 #include "Ship.h"
 #include "graphics.cpp"
+#include "sounds.cpp"
 
 // Information for datastructures of the classes located in header-file
 
@@ -10,7 +11,7 @@
  */
 
 Ship::Ship(int x, int y)
-{   // Set Start Coordinates
+{ // Set Start Coordinates
     this->x = x;
     this->y = y;
 }
@@ -31,35 +32,35 @@ Ship::~Ship()
 
 void Ship::Move(char dir)
 {
-  switch(dir)
-  {
+    switch (dir)
+    {
     case 'w':
-    if(this->x>0)
-    {
-      this->x--;      
-    }
-    break;
+        if (this->x > 0)
+        {
+            this->x--;
+        }
+        break;
     case 'e':
-    if(this->x+this->sizeX<gb.display.width())
-    {
-      this->x++;      
-    }
-    break;
+        if (this->x + this->sizeX < gb.display.width())
+        {
+            this->x++;
+        }
+        break;
     case 'n':
-    if(this->y>0)
-    {
-      this->y--;      
-    }
-    break;
+        if (this->y > 0)
+        {
+            this->y--;
+        }
+        break;
     case 's':
-    if(this->y+this->sizeY<gb.display.height())
-    {
-      this->y++;      
-    }
-    break;
+        if (this->y + this->sizeY < gb.display.height())
+        {
+            this->y++;
+        }
+        break;
     default:
-    break;
-  }
+        break;
+    }
 }
 
 /* 
@@ -68,14 +69,14 @@ void Ship::Move(char dir)
  * ================
  */
 
-Player::Player(int x, int y, char c) 
+Player::Player(int x, int y, char c)
 {
-  this->x = x;
-  this->y = y;
-  this->name = name;
-  this->life = 100;
-  this->sizeX = 7; // width of playerSprite
-  this->sizeY = 9; // height of playerSprite
+    this->x = x;
+    this->y = y;
+    this->name = name;
+    this->life = 100;
+    this->sizeX = 7; // width of playerSprite
+    this->sizeY = 9; // height of playerSprite
 }
 
 /* 
@@ -86,8 +87,8 @@ Player::Player(int x, int y, char c)
 
 Enemy::Enemy(int x, int y)
 {
-  this->x = x;
-  this->y = y;
+    this->x = x;
+    this->y = y;
 }
 
 Enemy::Enemy()
@@ -104,10 +105,12 @@ Enemy::~Enemy()
  * ================
  */
 
-Projectile::Projectile(int x, int y)
+Projectile::Projectile(int x, int y, int speedX)
 {
-  this->x = x;
-  this->y = y;
+    this->x = x;
+    this->y = y;
+    this->speedX = speedX;
+    gb.sound.fx(mySfx);
 }
 
 Projectile::Projectile()
@@ -116,9 +119,22 @@ Projectile::Projectile()
 
 Projectile::~Projectile()
 {
+    
 }
 
-void Projectile::draw()
+void Projectile::Draw()
 {
-  gb.display.fillRect(this->x, this->y, 5, 5);
+    Image ammuSprite(ammuSpriteData);
+    gb.display.drawImage(this->x, this->y, ammuSprite);
 }
+
+bool Projectile::Move()
+{
+    this->x += this->speedX;
+    if (this->x > gb.display.width() - 15) //checks for screen bounds
+            return true;
+    else return false;
+}
+
+
+

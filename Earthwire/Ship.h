@@ -41,16 +41,17 @@ public:
 class Projectile
 {
   public:
-    Projectile(int, int);
+    Projectile(int, int, int); // x, y and speedX
     Projectile();
     ~Projectile();
     
     // Variables
-    int speedX;
+    int speedX; // not an absolute value, sign gives direction (positive means moving eastward, negative means moving westward)
     int speedY;
     int x;
     int y;
     
     // Functions
-    void draw();
+    void Draw();
+    bool Move(); // this returns a bool to decide whether the object should be deleted because it's oob
 };
