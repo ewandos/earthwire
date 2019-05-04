@@ -119,7 +119,7 @@ Projectile::Projectile()
 
 Projectile::~Projectile()
 {
-    
+
 }
 
 void Projectile::Draw()
@@ -131,7 +131,7 @@ void Projectile::Draw()
 bool Projectile::Move()
 {
     this->x += this->speedX;
-    if (this->x > gb.display.width() - 15) //checks for screen bounds
+    if (this->x > gb.display.width()) //checks for screen bounds
             return true;
     else return false;
 }
