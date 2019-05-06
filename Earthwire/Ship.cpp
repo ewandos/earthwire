@@ -1,14 +1,14 @@
+#include <cstdlib>
 #include "Ship.h"
 #include "graphics.cpp"
 #include "sounds.cpp"
-
 // Information for datastructures of the classes located in header-file
 
-/* 
- * ================
- * SHIP
- * ================
- */
+/*
+* =====================
+* S H I P
+* =====================
+*/
 
 Ship::Ship(int x, int y)
 { // Set Start Coordinates
@@ -16,19 +16,8 @@ Ship::Ship(int x, int y)
     this->y = y;
 }
 
-Ship::Ship()
-{
-}
-
-void Ship::Draw()
-{
-    Image playerSprite(playerSpriteData);
-    gb.display.drawImage(this->x, this->y, playerSprite);
-}
-
-Ship::~Ship()
-{
-}
+Ship::Ship(){}
+Ship::~Ship(){}
 
 void Ship::Move(char dir)
 {
@@ -63,11 +52,16 @@ void Ship::Move(char dir)
     }
 }
 
-/* 
- * ================
- * PLAYER (Child Class of Ship)
- * ================
- */
+Projectile* Shoot(int speed)
+{
+
+}
+
+/*
+* =====================
+* P L A Y E R - S H I P
+* =====================
+*/
 
 Player::Player(int x, int y, char c)
 {
@@ -79,27 +73,61 @@ Player::Player(int x, int y, char c)
     this->sizeY = 9; // height of playerSprite
 }
 
-/* 
- * ================
- * ENEMY (Child Class of Ship)
- * ================
- */
-
-Enemy::Enemy(int x, int y)
+void Player::Draw()
 {
-    this->x = x;
-    this->y = y;
+    Image playerSprite(playerSpriteData);
+    gb.display.drawImage(this->x, this->y, playerSprite);
 }
 
-Enemy::Enemy()
+Projectile* Player::Shoot()
 {
+
 }
 
-Enemy::~Enemy()
+/*
+* =====================
+* E N E M Y - S H I P
+* =====================
+*/
+
+Enemy::Enemy(int shootingRate)
 {
+    this->shootingRate = shootingRate;
+    // Enemy needs no parameters for coords, cause of random generation
+    randomSeed(analogRead(0));  // init Random Seed
+    this->sizeX = 12; // width of playerSprite
+    this->sizeY = 15; // height of playerSprite
+
+    // set coords based on sprite-size
+    this->x = gb.display.width() - this->sizeX;
+    this->y = random(gb.display.height() - this->sizeY);
+
+    this->life = 100;
 }
 
-/* 
+Enemy::~Enemy(){}
+
+Projectile* Enemy::Shoot()
+{
+
+  int shooting = random(this->shootingRate);
+  if (shooting == 0)
+  { // e.g. shootingRate = 5 -> 1/5 Chance per Frame the enemy is actually shooting
+    return new Projectile(this->x + (this->sizeX / 2), this->y + (this->sizeY / 2), -2);
+  } else
+  {
+    return nullptr;
+  }
+
+}
+
+void Enemy::Draw()
+{
+    Image enemySprite(enemySpriteData);
+    gb.display.drawImage(this->x, this->y, enemySprite);
+}
+
+/*
  * ================
  * PROJECTILE
  * ================
@@ -111,16 +139,10 @@ Projectile::Projectile(int x, int y, int speedX)
     this->y = y;
     this->speedX = speedX;
     gb.sound.fx(mySfx);
+    this->damage = 10;
 }
 
-Projectile::Projectile()
-{
-}
-
-Projectile::~Projectile()
-{
-
-}
+Projectile::~Projectile(){}
 
 void Projectile::Draw()
 {
@@ -132,6 +154,7 @@ bool Projectile::Move()
 {
     this->x += this->speedX;
     if (this->x > gb.display.width() || this->x < 0 || this->y < 0 || this->y > gb.display.height()) //checks for screen bounds
-            return true;
+            return true;  // Returns true if Projectile is out of the window
+            
     else return false;
 }
