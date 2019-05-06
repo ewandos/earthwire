@@ -34,6 +34,11 @@
  * Funktion:  Icon für Munition
  * Breite:    3
  * Höhe:      6
+ * 
+ * DataName:  projectileImgData
+ * Funktion:  Icon für Projektile
+ * Breite:    2
+ * Höhe:      1
  * ---------------------
  * Documentation zum Nachlesen: https://gamebuino.com/academy/standalone/add-images-to-your-games
 */
@@ -110,4 +115,14 @@ const uint8_t ammuSpriteData[] = {
   0x88, 0x82,
   0x88, 0x82,
   0x44, 0x42,
+};
+
+const uint8_t projectileImgData[] = {
+  2, 1, // width, heigth
+  1, 0, // frames
+  0, // frame loop
+  0x02, // transparent color
+  1, // color mode
+
+  0xAA,
 };

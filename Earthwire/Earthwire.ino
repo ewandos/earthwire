@@ -46,7 +46,7 @@ void loop() {
       delete ProjArr[i];
       ProjArr[i] = nullptr;
     }
-    ProjArr[i] = new Projectile(p1.x, p1.y, 1); //giving it 1 speedX for testing
+    ProjArr[i] = new Projectile(p1.x + (p1.sizeX / 2), p1.y + (p1.sizeY / 2), 3); //giving it 1 speedX for testing
     i++;
     if ( i >= 5 )
     {
@@ -73,7 +73,6 @@ void loop() {
    * DRAWING
    */ 
    
-  p1.Draw();
   for (int j = 0; j < 5; j++)
   {
     if (ProjArr[j] != nullptr)
@@ -87,4 +86,5 @@ void loop() {
         ProjArr[j] -> Draw();
     }
   }
+  p1.Draw();
 }

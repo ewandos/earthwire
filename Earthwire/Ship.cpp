@@ -124,8 +124,8 @@ Projectile::~Projectile()
 
 void Projectile::Draw()
 {
-    Image ammuSprite(ammuSpriteData);
-    gb.display.drawImage(this->x, this->y, ammuSprite);
+    Image projectileImg(projectileImgData);
+    gb.display.drawImage(this->x, this->y, projectileImg);
 }
 
 bool Projectile::Move()
@@ -135,6 +135,3 @@ bool Projectile::Move()
             return true;
     else return false;
 }
-
-
-
