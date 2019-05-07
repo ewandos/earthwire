@@ -1,4 +1,5 @@
 # MegaMaze Metareview
+
 ## Projektstrukturplan
 Der Projektstrukturplan ist objektorientiert in 3 separate Kategorien, sowie weitere Unterkategorien gegliedert. Die weitere Unterteilung der einzelnen Aufgaben ist übersichtlich und erscheint sinnvoll. In den einzelnen Unterkategorien ist bereits der zeitliche Ablauf der Durchführung anhand der vertikalen Position im Baumdiagramm zu erkennen. Abhängigkeiten der einzelnen Äste, welche sich in der Kategorie "Mechaniken" ergeben, werden durch deren horizontale Positionierung zeitlich von links nach rechts dargestellt.
 ## Arbeitspakete
@@ -7,7 +8,20 @@ Die Ziele der meisten Arbeitspakete sind klar erkennbar, wirken in ihrem Umfang 
 In der Feature-Liste ist eine Kurzbeschreibung des Projektes enthalten. Das allgemeine Spielprinzip ist klar erkennbar, ebenso der erweiterte Umfang (Menü, Highscore, Musik) der Anwendung. Die Spieldynamik ist abgesehen von der Grundfunktion (Kippen und Drehen) nicht genauer beschrieben. Ebenso das Leveldesign weist nur die Grundstrukturen von Wänden und Löchern auf, genauere Beschreibungen der Elemente, Formen der Interaktion und grafische Umsetzung sind nicht vorhanden und können ebensowenig anhand des Projektstrukturplanes erkannt werden. Ohne Einblick darin, welche Tools zur Erstellung des Spieles eingesetzt werden, ist die Analyse der Spielmechanik äußerst schwer durchzuführen.
 ## Projektablaufplan
 Der Projektablaufplan ist in Form eines Gantt-Diagramms sehr übersichtlich gestaltet. Er weist sowohl den Ablauf des gesamten Projektes, als auch die Arbeitsbereiche der einzelnen Teilnehmer auf. Farbliche Gestaltung und Anordnung der Arbeitspakete sind sinnvoll. Menüpunkte und Musik werden als separate Arbeitsbereiche von einzelnen Teilnehmern übernommen, Levelgestaltung erfolgt im Team. Nach Erstellung des Grundgerüstes, sowie nach weiterer Adaptierung sind Testphasen zur Fehlerbearbeitung eingeplant. Diese sind zeitlich auf funktional abhängige Arbeitspakete angepasst.
+## Umfang und Gestaltung
+Die Dokumente geben einem durch ihren großen Umfang einen guten Einblick in das Projekt. Es wird klar, was das Team sich an einzelnen Aufgaben vorgenommen hat, jedoch fehlt ein einfacher Pitch des Projektes. Somit muss man sich wichtige Fragen zur Prämisse des Spiels erst durch interpretieren der Informationen beantworten:
+* Erklärung des Spieltitels?
+* Welches Genre?
+* Was ist genau das Ziel des Spiels?
+* Welche Plattform?
+* Singleplayer oder Multiplayer?
+* Welche Engine?
+* Wie ist die grafische Gestaltung?
+* Welchen spielerischen Umfang kann der Benutzer als Endprodukt erwarten?
+Die Gestaltung der Dokumente hingegen ist gelungen und ansprechend. Sie sind teilweise übersichtlich und durch farbliche Ausarbeitung ansprechend zu lesen. Doch darüber hinweg setzt sich der Umstand, dass einem nicht immer die Funktion aller Dokumente ersichtlich ist. Z.B. ist "MegaMaze_2019_04_22" kein eindeutig bezeichnender Name, damit man versteht, dass es sich hierbei um eine Aufgliederung von Aufgaben und Meilensteile handelt. Ein weiteres kleines Manko ist, dass die Dokumente teilweise als .docx und .csv abgegeben wurden, wohingegen PDF-Dateien die bessere Wahl gewesen wären, da sonst der Kunde Änderungen vornehmen kann.
+## Realisierung des Projektes
+Dass das Team selbst ihr Projekt in einem der Dokumente als "Ein sau nices Projekt bei dem wir fürchterlich verkacken werden." bezeichnet, sollte man korrigieren, dass der Umfang durchaus realisierbar scheint. Es kommt hierbei nur stark darauf an, wie viel Erfahrung die jeweiligen Teammitglieder mit der ensprechenden Engine haben, um die Recherche-Zeit zu vermindern. Dem entsprechend ist eine flüssige Kommunikation und eine gute Zusammenarbeit der Aufgaben der Schlüssel, was sich das Team, so wie man den Dokumenten entnimmt, gut überlegt hat und strukturiert angeht. Gerade die Einteilung der Features in Prioritäten, lassen kurzfristige Kurswechsel zu und werden es vermutlich dem Team ermöglichen, das Projekt vielleicht nicht in genau dem gezielten Umfang anzuliefern, aber es wird abgeschlossen und fertig spielbar sein.
 ## Vergleich der Projekte
-Der Projektstrukturplan ist weniger detailliert aufgegliedert, zudem fehlen Beschreibungen, die für manche Arbeitspakete durchaus sinnvoll wären.
+Der Projektstrukturplan ist weniger detailliert aufgegliedert, zudem fehlen Beschreibungen und konkrete Bedingungen, die für manche Arbeitspakete durchaus und auch für das Verständnis sinnvoll wären.
 
-Im eigenen Projekt ist keine Darstellung des Projektablaufplanes in Form eines Gantt-Diagrammes vorhanden. Dieses stellt für die Teilnehmer jedoch sicher ein gutes Instrument dar, um einen schnellen Überblick über den zeitlichen Fortschritt und die Einhaltung von Terminen zu gewinnen.
+Im eigenen Projekt ist keine Darstellung des Projektablaufplanes in Form eines Gantt-Diagrammes vorhanden. Dieses stellt für die Teilnehmer jedoch sicher ein gutes Instrument dar, um einen schnellen Überblick über den zeitlichen Fortschritt und die Einhaltung von Terminen zu gewinnen. Außerdem hat das eigene Team auf eine grafische Aufbearbeitung verzichtet, was sicherlich ein die Dokumente ansprechender gemacht hätte.
