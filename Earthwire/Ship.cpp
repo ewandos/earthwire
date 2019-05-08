@@ -52,11 +52,6 @@ void Ship::Move(char dir)
     }
 }
 
-Projectile* Shoot(int speed)
-{
-
-}
-
 /*
 * =====================
 * P L A Y E R - S H I P
@@ -73,6 +68,11 @@ Player::Player(int x, int y, char c)
     this->sizeY = 9; // height of playerSprite
 }
 
+Player::~Player()
+{
+
+}
+
 void Player::Draw()
 {
     Image playerSprite(playerSpriteData);
@@ -82,6 +82,22 @@ void Player::Draw()
 Projectile* Player::Shoot()
 {
 
+}
+
+void Player::CheckProjColl(Projectile* ProjArr[], int maxProj)
+{
+  // Check for Collisions with Projectiles
+  for (int i = 0; i < maxProj; i++)
+  {
+    int projX = ProjArr[i]->x;
+    int projY = ProjArr[i]->y;
+    if (projX < (this->x + this->sizeX) && projX > this->x && projY < (this->y + this->sizeY) && projY > this->y)
+    { // Plane hit!
+      this->life -= ProjArr[i]->damage;
+      delete ProjArr[i];
+      ProjArr[i] = nullptr;
+    }
+  }
 }
 
 /*
@@ -109,7 +125,6 @@ Enemy::~Enemy(){}
 
 Projectile* Enemy::Shoot()
 {
-
   int shooting = random(this->shootingRate);
   if (shooting == 0)
   { // e.g. shootingRate = 5 -> 1/5 Chance per Frame the enemy is actually shooting
@@ -125,6 +140,21 @@ void Enemy::Draw()
 {
     Image enemySprite(enemySpriteData);
     gb.display.drawImage(this->x, this->y, enemySprite);
+}
+
+void Enemy::CheckProjColl(Projectile* ProjArr[], int maxProj)
+{
+  for (int i = 0; i < maxProj; i++)
+  {
+    int projX = ProjArr[i]->x;
+    int projY = ProjArr[i]->y;
+    if (projX < (this->x + this->sizeX) && projX > this->x && projY < (this->y + this->sizeY) && projY > this->y)
+    { // Plane hit!
+      this->life -= ProjArr[i]->damage;
+      delete ProjArr[i];
+      ProjArr[i] = nullptr;
+    }
+  }
 }
 
 /*
@@ -155,6 +185,6 @@ bool Projectile::Move()
     this->x += this->speedX;
     if (this->x > gb.display.width() || this->x < 0 || this->y < 0 || this->y > gb.display.height()) //checks for screen bounds
             return true;  // Returns true if Projectile is out of the window
-            
+
     else return false;
 }

@@ -7,7 +7,7 @@
 * =====================
 */
 
-Player p1(8, 9, 'a');
+Player *p1 = new Player(8, 9, 'a');
 
 //the purpose of this arrays is to limit the stuff that gets drawn on screen
 // current values are for testing
@@ -52,20 +52,20 @@ void loop() {
   // Movement Input
   if (gb.buttons.repeat(BUTTON_UP, 1))
   {
-    p1.Move('n');
+    p1->Move('n');
   }
   if (gb.buttons.repeat(BUTTON_DOWN, 1))
   {
-    p1.Move('s');
+    p1->Move('s');
   }
   if (gb.buttons.repeat(BUTTON_LEFT, 1))
   {
-    p1.Move('w');
+    p1->Move('w');
   }
 
   if (gb.buttons.repeat(BUTTON_RIGHT, 1))
   {
-    p1.Move('e');
+    p1->Move('e');
   }
 
   // Player's Ability to shoot (!Testing!)
@@ -76,7 +76,7 @@ void loop() {
       delete ProjArr[projIndex];
       ProjArr[projIndex] = nullptr;
     }
-    ProjArr[projIndex] = new Projectile(p1.x + (p1.sizeX / 2), p1.y + (p1.sizeY / 2), 3); //giving it 1 speedX for testing
+    ProjArr[projIndex] = new Projectile(p1->x + (p1->sizeX / 2), p1->y + (p1->sizeY / 2), 3); //giving it 1 speedX for testing
     projIndex++;
     if ( projIndex >= maxProj )
     {
@@ -109,11 +109,24 @@ void loop() {
     }
   }
 
-  // GameOver-Condition (should be only called after a collission has been registered)
-  if (p1.life < 1)
+  // Check for Collisions & Lifepoints of PLAYER
+  p1->CheckProjColl(EnemProjArr, maxEnemProj);
+
+  if (p1->life < 1)
   {
-    // TODO: Player is dead -> what happens now
+    // Destroy Player
   }
+
+  // Check for Collision & Lifepoints of Enemies
+  for (int i = 0; i < maxEnem; i++)
+  {
+    EnemyArr[i]->CheckProjColl(ProjArr, maxProj);
+    if (EnemyArr[i]->life <= 0)
+    {
+      // Destroy Enemy
+    }
+  }
+
 
   // clear the previous screen
   gb.display.clear();
@@ -130,7 +143,7 @@ void loop() {
 
    // debug Player HP
    gb.display.print("HP:");
-   gb.display.println(p1.life);
+   gb.display.println(p1->life);
 
 
    // Player Projectiles
@@ -175,6 +188,6 @@ void loop() {
   }
 
   // Draw Player Plane
-  p1.Draw();
+  p1->Draw();
 
 }

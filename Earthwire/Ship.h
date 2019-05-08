@@ -33,16 +33,17 @@ public:
     int sizeY = 5;
 
     // Functions
+    void Move(char);  // Changes Coordinates based on Input
+    virtual void CheckProjColl(Projectile*[], int maxProj) = 0; // Checks Collision based on Projectile Array
     virtual void Draw() = 0;  // Interface for child classes
     virtual Projectile* Shoot() = 0;  // Interface for child classes
-    void Move(char);  // Changes Coordinates based on Input
 };
 
 class Player : public Ship
 {
 public:
   Player(int, int, char);
-
+  ~Player();
   // Variables
   char name;
   int score;
@@ -51,6 +52,7 @@ public:
   // Functions
   void Draw();
   Projectile* Shoot();
+  void CheckProjColl(Projectile*[], int maxProj);
 };
 
 class Enemy : public Ship
@@ -66,4 +68,5 @@ public:
   // Functions
   void Draw();
   Projectile* Shoot();
+  void CheckProjColl(Projectile*[], int maxProj);
 };
