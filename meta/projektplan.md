@@ -77,7 +77,7 @@
 - 4.4.4 Die Gegner bewegen sich nicht mehr und schießen nicht.
 - 4.4.5 Beim betätigen des *A-Knopfs* wird das Spiel fortgesetzt.
 
-# MS5 | Finalisierung M
+# MS5 | Finalisierung
 ## 5.1 Grafik (15 Stunden)
 - 5.1.1 Grafiken werden erstellt
 - 5.1.2 Die Platzhaltergrafiken werden ausgetauscht.
