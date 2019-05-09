@@ -49,9 +49,11 @@ public:
   // Variables
   int shootingRate; // how often the enemy shoots
   int life;
+  int speed;
 
   // Functions
   void Draw();
+  bool Move();
   Projectile* Shoot();
   void CheckProjColl(Projectile*[], int maxProj);
 };
