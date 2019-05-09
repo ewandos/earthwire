@@ -29,8 +29,7 @@ public:
     int life = 100;
     int x = 0;  // Coordinates
     int y = 0;
-    int sizeX1 = 0; // Size for Collision: x-span of wings
-    int sizeX2 = 5;
+    int sizeX = 5;  // Size for Collision
     int sizeY = 5;
 
     // Functions
@@ -38,22 +37,6 @@ public:
     virtual void CheckProjColl(Projectile*[], int maxProj) = 0; // Checks Collision based on Projectile Array
     virtual void Draw() = 0;  // Interface for child classes
     virtual Projectile* Shoot() = 0;  // Interface for child classes
-};
-
-class Enemy : public Ship
-{
-public:
-  Enemy(int shootingRate);
-  ~Enemy();
-
-  // Variables
-  int shootingRate; // how often the enemy shoots
-  int life;
-
-  // Functions
-  void Draw();
-  Projectile* Shoot();
-  void CheckProjColl(Projectile*[], int maxProj);
 };
 
 class Player : public Ship
@@ -70,5 +53,20 @@ public:
   void Draw();
   Projectile* Shoot();
   void CheckProjColl(Projectile*[], int maxProj);
-  void CheckPlaneColl(Enemy* EnemyArr[], int maxEnem);
+};
+
+class Enemy : public Ship
+{
+public:
+  Enemy(int shootingRate);
+  ~Enemy();
+
+  // Variables
+  int shootingRate; // how often the enemy shoots
+  int life;
+
+  // Functions
+  void Draw();
+  Projectile* Shoot();
+  void CheckProjColl(Projectile*[], int maxProj);
 };
