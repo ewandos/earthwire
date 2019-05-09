@@ -20,6 +20,9 @@ public:
     int y = 0;
     int sizeX = 5;  // Size for Collision
     int sizeY = 5;
+    int wingX1;     // x-position of Wings
+    int wingX2;
+    int explodeTime = 12; // frames for explosion animation
     float speed;
 
     // Functions
@@ -58,4 +61,5 @@ public:
   bool Move();
   Projectile* Shoot();
   void CheckProjColl(Projectile*[], int maxProj);
+  void CheckPlaneColl(Ship*);
 };

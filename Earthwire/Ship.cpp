@@ -31,6 +31,8 @@ Player::Player(int x, int y, char c)
     this->sizeX = 7; // width of playerSprite
     this->sizeY = 9; // height of playerSprite
     this->speed = 1;
+    this->wingX1 = 2; //wing-position of playerSprite
+    this->wingX2 = 4;
 }
 
 Player::~Player()
@@ -116,6 +118,8 @@ Enemy::Enemy(int shootingRate)
     randomSeed(analogRead(0));  // init Random Seed
     this->sizeX = 12; // width of playerSprite
     this->sizeY = 15; // height of playerSprite
+    this->wingX1 = 4;
+    this->wingX2 = 6;
     this->speed = 1;
 
     // set coords based on sprite-size
@@ -158,6 +162,16 @@ void Enemy::CheckProjColl(Projectile* ProjArr[], int maxProj)
       ProjArr[i] = nullptr;
     }
   }
+}
+
+void Enemy::CheckPlaneColl(Ship* player)
+{
+  // Check for Collisions with Player
+    if (this->x + this->wingX1 <= player->x + player->wingX2 && this->x + this->wingX2 >= player->x + player->wingX1 && this->y < player->y + player->sizeY && this->y + this->sizeY >   player->y)
+    { // Plane hit!
+      player->life = 0;
+      this->life = 0;
+    }
 }
 
 bool Enemy::Move()
