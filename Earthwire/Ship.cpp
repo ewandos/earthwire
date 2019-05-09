@@ -30,7 +30,7 @@ void Ship::Move(char dir)
         }
         break;
     case 'e':
-        if (this->x + this->sizeX < gb.display.width())
+        if (this->x + 10 < gb.display.width())
         {
             this->x++;
         }
@@ -64,7 +64,8 @@ Player::Player(int x, int y, char c)
     this->y = y;
     this->name = name;
     this->life = 100;
-    this->sizeX = 7; // width of playerSprite
+    this->sizeX1 = 3; // x-position of wings in playerSprite
+    this->sizeX2 = 5; // x-position of end of wings
     this->sizeY = 9; // height of playerSprite
 }
 
@@ -91,11 +92,30 @@ void Player::CheckProjColl(Projectile* ProjArr[], int maxProj)
   {
     int projX = ProjArr[i]->x;
     int projY = ProjArr[i]->y;
-    if (projX < (this->x + this->sizeX) && projX > this->x && projY < (this->y + this->sizeY) && projY > this->y)
+    if (projX <= (this->x + this->sizeX2) && projX >= this->x + this->sizeX1 && projY < (this->y + this->sizeY) && projY >= this->y)
     { // Plane hit!
       this->life -= ProjArr[i]->damage;
       delete ProjArr[i];
       ProjArr[i] = nullptr;
+    }
+  }
+}
+
+void Player::CheckPlaneColl(Enemy* EnemyArr[], int maxEnem)
+{
+  // Check for Collisions with Enemies
+  int buff = 2; //buffer for overlapping wings
+  for (int i = 0; i < maxEnem; i++)
+  {
+    int enemX = EnemyArr[i]->x;
+    int enemY = EnemyArr[i]->y;
+    int enemSizeX1 = EnemyArr[i]->sizeX1;
+    int enemSizeX2 = EnemyArr[i]->sizeX2;
+    int enemSizeY = EnemyArr[i]->sizeY;
+    if (enemX + enemSizeX1 <= (this->x + this->sizeX2) && enemX + enemSizeX2 >= this->x + this->sizeX1 && enemY + buff < (this->y + this->sizeY) && enemY + enemSizeY > this->y +buff)
+    { // Collision!
+      this->life = 0;
+      EnemyArr[i]->life=0;
     }
   }
 }
@@ -111,11 +131,12 @@ Enemy::Enemy(int shootingRate)
     this->shootingRate = shootingRate;
     // Enemy needs no parameters for coords, cause of random generation
     randomSeed(analogRead(0));  // init Random Seed
-    this->sizeX = 12; // width of playerSprite
+    this->sizeX1 = 5; // x-position of wings in enemySprite
+    this->sizeX2 = 7; // x-position of end of wings
     this->sizeY = 15; // height of playerSprite
 
     // set coords based on sprite-size
-    this->x = gb.display.width() - this->sizeX;
+    this->x = gb.display.width() - 15;
     this->y = random(gb.display.height() - this->sizeY);
 
     this->life = 100;
@@ -128,7 +149,7 @@ Projectile* Enemy::Shoot()
   int shooting = random(this->shootingRate);
   if (shooting == 0)
   { // e.g. shootingRate = 5 -> 1/5 Chance per Frame the enemy is actually shooting
-    return new Projectile(this->x + (this->sizeX / 2), this->y + (this->sizeY / 2), -2);
+    return new Projectile(this->x + this->sizeX1, this->y + (this->sizeY / 2), -2);
   } else
   {
     return nullptr;
@@ -148,7 +169,7 @@ void Enemy::CheckProjColl(Projectile* ProjArr[], int maxProj)
   {
     int projX = ProjArr[i]->x;
     int projY = ProjArr[i]->y;
-    if (projX < (this->x + this->sizeX) && projX > this->x && projY < (this->y + this->sizeY) && projY > this->y)
+    if (projX <= (this->x + this->sizeX2) && projX >= this->x + this->sizeX1 && projY < (this->y + this->sizeY) && projY >= this->y)
     { // Plane hit!
       this->life -= ProjArr[i]->damage;
       delete ProjArr[i];

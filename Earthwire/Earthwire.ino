@@ -76,7 +76,7 @@ void loop() {
       delete ProjArr[projIndex];
       ProjArr[projIndex] = nullptr;
     }
-    ProjArr[projIndex] = new Projectile(p1->x + (p1->sizeX / 2), p1->y + (p1->sizeY / 2), 3); //giving it 1 speedX for testing
+    ProjArr[projIndex] = new Projectile(p1->x + (p1->sizeX2), p1->y + (p1->sizeY / 2), 3); //giving it 1 speedX for testing
     projIndex++;
     if ( projIndex >= maxProj )
     {
@@ -111,6 +111,7 @@ void loop() {
 
   // Check for Collisions & Lifepoints of PLAYER
   p1->CheckProjColl(EnemProjArr, maxEnemProj);
+  p1->CheckPlaneColl(EnemyArr, maxEnem);
 
   if (p1->life < 1)
   {
@@ -120,13 +121,17 @@ void loop() {
   // Check for Collision & Lifepoints of Enemies
   for (int i = 0; i < maxEnem; i++)
   {
-    EnemyArr[i]->CheckProjColl(ProjArr, maxProj);
-    if (EnemyArr[i]->life <= 0)
+    if (EnemyArr[i] != nullptr)
     {
-      // Destroy Enemy
+      EnemyArr[i]->CheckProjColl(ProjArr, maxProj);
+      if (EnemyArr[i]->life <= 0)
+      {
+        delete EnemyArr[i];
+        EnemyArr[i] = nullptr;
+        curEnem--;
+      }
     }
   }
-
 
   // clear the previous screen
   gb.display.clear();
