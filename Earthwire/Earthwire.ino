@@ -156,7 +156,7 @@ void loop() {
   {
     if (ProjArr[j] != nullptr)
     {
-      if(!ProjArr[j]->Move())
+      if(ProjArr[j] -> Move())
       {
         delete ProjArr[j];
         ProjArr[j] = nullptr;
@@ -171,27 +171,21 @@ void loop() {
  {
    if (EnemProjArr[j] != nullptr)
    {
-     if(!EnemProjArr[j]->Move()) // Moves the Projectile and checks if it is offscreen
+     if(EnemProjArr[j] -> Move()) // Moves the Projectile and checks if it is offscreen
      {  // its  offscreen
        delete EnemProjArr[j];
        EnemProjArr[j] = nullptr;
      }
      if(EnemProjArr[j] != nullptr)
-     {
+     { // Projectule drawn
        EnemProjArr[j] -> Draw();
      }
    }
  }
 
-  // Enemies Plane
+  // Draw Enemies Plane
   for (int j = 0; j < maxEnem; j++)
   {
-    if (!EnemyArr[j]->Move())
-    { // its offscreen
-      delete EnemyArr[j];
-      EnemyArr[j] = nullptr;
-      curEnem--;
-    }
     if (EnemyArr[j] != nullptr)
     {
       EnemyArr[j]->Draw();

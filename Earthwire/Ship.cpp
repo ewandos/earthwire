@@ -134,10 +134,9 @@ Enemy::Enemy(int shootingRate)
     this->sizeX1 = 5; // x-position of wings in enemySprite
     this->sizeX2 = 7; // x-position of end of wings
     this->sizeY = 15; // height of playerSprite
-    this->speed = 1;
 
     // set coords based on sprite-size
-    this->x = gb.display.width();
+    this->x = gb.display.width() - 15;
     this->y = random(gb.display.height() - this->sizeY);
 
     this->life = 100;
@@ -179,18 +178,6 @@ void Enemy::CheckProjColl(Projectile* ProjArr[], int maxProj)
   }
 }
 
-bool Enemy::Move()
-{
-  this->x -= this->speed;
-  if ((this->x + (this->sizeX1 * 2)) < 0)
-  { // left screen on the left side
-    return false;
-  } else
-  {
-    return true;
-  }
-}
-
 /*
  * ================
  * PROJECTILE
@@ -218,7 +205,7 @@ bool Projectile::Move()
 {
     this->x += this->speedX;
     if (this->x > gb.display.width() || this->x < 0 || this->y < 0 || this->y > gb.display.height()) //checks for screen bounds
-            return false;  // Returns true if Projectile is out of the window
+            return true;  // Returns true if Projectile is out of the window
 
-    else return true;
+    else return false;
 }
