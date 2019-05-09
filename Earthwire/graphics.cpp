@@ -1,6 +1,8 @@
+#ifndef GRAPHICS_CPP
+#define GRAPHICS_CPP
 #include <Gamebuino-Meta.h>
 
-/* 
+/*
  * ====================
  * GRAFIKEN & ANIMATION
  * ====================
@@ -11,30 +13,30 @@
  * Zum zeichnen einer Grafik diese Datei includen und zum eigentlichen Ausgeben
  * Ein Image mit " Image SPRITENAMEN(SPRITENAMEN_DATA); " erstellen und mit
  * " gb.display.drawImage(XKOORDINATE, YKOORDINATE, SPRITENAMEN); " verwenden.
- * 
+ *
  * ---------------------
  * ALLE SPRITES:
- * 
+ *
  * DataName:  playerSpriteData
  * Funktion:  Grafik für den Spieler
  * Breite:    7
  * Höhe:      9
- * 
+ *
  * DataName:  enemySpriteData
  * Funktion:  Grafik für den Gegner
  * Breite:    12
  * Höhe:      15
- * 
+ *
  * DataName:  hullSpriteData
  * Funktion:  Icon für Rüstung
  * Breite:    5
  * Höhe:      6
- * 
+ *
  * DataName:  ammuSpriteData
  * Funktion:  Icon für Munition
  * Breite:    3
  * Höhe:      6
- * 
+ *
  * DataName:  projectileImgData
  * Funktion:  Icon für Projektile
  * Breite:    2
@@ -126,3 +128,4 @@ const uint8_t projectileImgData[] = {
 
   0xAA,
 };
+#endif

@@ -51,22 +51,16 @@ void loop() {
 
   // Movement Input
   if (gb.buttons.repeat(BUTTON_UP, 1))
-  {
     p1->Move('n');
-  }
+
   if (gb.buttons.repeat(BUTTON_DOWN, 1))
-  {
     p1->Move('s');
-  }
+
   if (gb.buttons.repeat(BUTTON_LEFT, 1))
-  {
     p1->Move('w');
-  }
 
   if (gb.buttons.repeat(BUTTON_RIGHT, 1))
-  {
     p1->Move('e');
-  }
 
   // Player's Ability to shoot (!Testing!)
   if (gb.buttons.pressed(BUTTON_A))
@@ -151,7 +145,7 @@ void loop() {
   {
     if (ProjArr[j] != nullptr)
     {
-      if(ProjArr[j] -> Move())
+      if(!ProjArr[j] -> Move())
       {
         delete ProjArr[j];
         ProjArr[j] = nullptr;
@@ -166,7 +160,7 @@ void loop() {
  {
    if (EnemProjArr[j] != nullptr)
    {
-     if(EnemProjArr[j] -> Move()) // Moves the Projectile and checks if it is offscreen
+     if(!EnemProjArr[j] -> Move()) // Moves the Projectile and checks if it is offscreen
      {  // its  offscreen
        delete EnemProjArr[j];
        EnemProjArr[j] = nullptr;
@@ -181,6 +175,12 @@ void loop() {
   // Draw Enemies Plane
   for (int j = 0; j < maxEnem; j++)
   {
+    if (!EnemyArr[j]->Move())
+    {
+      delete EnemyArr[j];
+      EnemyArr[j] = nullptr;
+      curEnem--;
+    }
     if (EnemyArr[j] != nullptr)
     {
       EnemyArr[j]->Draw();

@@ -1,7 +1,4 @@
-#include <cstdlib>
 #include "Ship.h"
-#include "graphics.cpp"
-#include "sounds.cpp"
 // Information for datastructures of the classes located in header-file
 
 /*
@@ -19,39 +16,6 @@ Ship::Ship(int x, int y)
 Ship::Ship(){}
 Ship::~Ship(){}
 
-void Ship::Move(char dir)
-{
-    switch (dir)
-    {
-    case 'w':
-        if (this->x > 0)
-        {
-            this->x--;
-        }
-        break;
-    case 'e':
-        if (this->x + this->sizeX < gb.display.width())
-        {
-            this->x++;
-        }
-        break;
-    case 'n':
-        if (this->y > 0)
-        {
-            this->y--;
-        }
-        break;
-    case 's':
-        if (this->y + this->sizeY < gb.display.height())
-        {
-            this->y++;
-        }
-        break;
-    default:
-        break;
-    }
-}
-
 /*
 * =====================
 * P L A Y E R - S H I P
@@ -66,11 +30,50 @@ Player::Player(int x, int y, char c)
     this->life = 100;
     this->sizeX = 7; // width of playerSprite
     this->sizeY = 9; // height of playerSprite
+    this->speed = 1;
 }
 
 Player::~Player()
 {
 
+}
+
+bool Player::Move(char dir)
+{
+    switch (dir)
+    {
+    case 'w':
+        if (this->x > 0)
+        {
+            this->x -= (int)this->speed;
+            return true;
+        }
+        break;
+    case 'e':
+        if (this->x + this->sizeX < gb.display.width())
+        {
+            this->x += (int)this->speed;
+            return true;
+        }
+        break;
+    case 'n':
+        if (this->y > 0)
+        {
+            this->y -= (int)this->speed;
+            return true;
+        }
+        break;
+    case 's':
+        if (this->y + this->sizeY < gb.display.height())
+        {
+            this->y += (int)this->speed;
+            return true;
+        }
+        break;
+    default:
+        return false;
+        break;
+    }
 }
 
 void Player::Draw()
@@ -113,9 +116,10 @@ Enemy::Enemy(int shootingRate)
     randomSeed(analogRead(0));  // init Random Seed
     this->sizeX = 12; // width of playerSprite
     this->sizeY = 15; // height of playerSprite
+    this->speed = 1;
 
     // set coords based on sprite-size
-    this->x = gb.display.width() - this->sizeX;
+    this->x = gb.display.width(); // spawns outside of the screen
     this->y = random(gb.display.height() - this->sizeY);
 
     this->life = 100;
@@ -133,7 +137,6 @@ Projectile* Enemy::Shoot()
   {
     return nullptr;
   }
-
 }
 
 void Enemy::Draw()
@@ -157,34 +160,14 @@ void Enemy::CheckProjColl(Projectile* ProjArr[], int maxProj)
   }
 }
 
-/*
- * ================
- * PROJECTILE
- * ================
- */
-
-Projectile::Projectile(int x, int y, int speedX)
+bool Enemy::Move()
 {
-    this->x = x;
-    this->y = y;
-    this->speedX = speedX;
-    gb.sound.fx(mySfx);
-    this->damage = 10;
-}
-
-Projectile::~Projectile(){}
-
-void Projectile::Draw()
-{
-    Image projectileImg(projectileImgData);
-    gb.display.drawImage(this->x, this->y, projectileImg);
-}
-
-bool Projectile::Move()
-{
-    this->x += this->speedX;
-    if (this->x > gb.display.width() || this->x < 0 || this->y < 0 || this->y > gb.display.height()) //checks for screen bounds
-            return true;  // Returns true if Projectile is out of the window
-
-    else return false;
+  this->x -= this->speed;
+  if ((this->x + this->sizeX) < 0)
+  { // left screen on the left side
+    return false;
+  } else
+  {
+    return true;
+  }
 }

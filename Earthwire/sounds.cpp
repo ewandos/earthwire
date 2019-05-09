@@ -1,3 +1,5 @@
+#ifndef SOUNDS_CPP
+#define SOUNDS_CPP
 #include <Gamebuino-Meta.h>
 
 
@@ -8,3 +10,4 @@ const Gamebuino_Meta::Sound_FX mySfx[] = {
     {Gamebuino_Meta::Sound_FX_Wave::SQUARE,1,100,10,0,126,10},
     {Gamebuino_Meta::Sound_FX_Wave::SQUARE,0,120,-6,0,84,10},
 };
+#endif
