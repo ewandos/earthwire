@@ -36,6 +36,7 @@ public:
   // Variables
   char name;
   int score;
+  int ammunation;
 
   // Functions
   void Draw();

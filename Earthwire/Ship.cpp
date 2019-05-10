@@ -31,6 +31,8 @@ Player::Player(int x, int y, char c)
     this->sizeX = 7; // width of playerSprite
     this->sizeY = 9; // height of playerSprite
     this->speed = 1;
+    this->ammunation = 15;
+    this->score = 0;
 }
 
 Player::~Player()
@@ -84,7 +86,7 @@ void Player::Draw()
 
 Projectile* Player::Shoot()
 {
-
+  return new Projectile(this->x + (this->sizeX / 2), this->y + (this->sizeY / 2), 3);
 }
 
 void Player::CheckProjColl(Projectile* ProjArr[], int maxProj)

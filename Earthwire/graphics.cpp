@@ -90,7 +90,7 @@ const uint8_t enemySpriteData[] = {
 };
 
 const uint8_t hullSpriteData[] = {
-  5, 6, // width, heigth
+  5, 5, // width, heigth
   1, 0, // frames
   0, // frame loop
   0x02, // transparent color
@@ -98,14 +98,13 @@ const uint8_t hullSpriteData[] = {
 
   0x99, 0xAA, 0xA2,
   0x9A, 0xAA, 0xA2,
-  0x9A, 0xAA, 0xA2,
   0xAA, 0xAA, 0xA2,
   0x2A, 0xAA, 0x22,
   0x22, 0xA2, 0x22,
 };
 
 const uint8_t ammuSpriteData[] = {
-  3, 6, // width, heigth
+  3, 5, // width, heigth
   1, 0, // frames
   0, // frame loop
   0x02, // transparent color
@@ -116,7 +115,6 @@ const uint8_t ammuSpriteData[] = {
   0x88, 0x82,
   0x88, 0x82,
   0x88, 0x82,
-  0x44, 0x42,
 };
 
 const uint8_t projectileImgData[] = {

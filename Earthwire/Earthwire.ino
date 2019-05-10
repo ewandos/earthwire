@@ -13,7 +13,7 @@ Player *p1 = new Player(8, 9, 'a');
 // current values are for testing
 const int maxProj = 5;
 const int maxEnem = 2;
-const int maxEnemProj = 10;
+const int maxEnemProj = 5;
 
 int curEnem = 0;  // current number of enemies on screen
 int curEnemProj = 0;  // current number of enemie projectiles
@@ -70,7 +70,7 @@ void loop() {
       delete ProjArr[projIndex];
       ProjArr[projIndex] = nullptr;
     }
-    ProjArr[projIndex] = new Projectile(p1->x + (p1->sizeX / 2), p1->y + (p1->sizeY / 2), 3); //giving it 1 speedX for testing
+    ProjArr[projIndex] = p1->Shoot();
     projIndex++;
     if ( projIndex >= maxProj )
     {
@@ -82,7 +82,7 @@ void loop() {
   for (int j = 0; j < maxEnem; j++)
   {
     if (curEnem < maxEnem && EnemyArr[j] == nullptr) {
-      EnemyArr[j] = new Enemy (50); // creating Enemy with shootingRate of 50 (testing!)
+      EnemyArr[j] = new Enemy (100); // creating Enemy with shootingRate of 50 (testing!)
       curEnem++;
     }
   }
@@ -127,18 +127,39 @@ void loop() {
 
 
   /* -------------------------
-   * DRAWING ALL SPRITES AND UI
+   * DRAWING UI
    */
 
+   // HULL
+   Image hullSprite(hullSpriteData);
+   gb.display.drawImage(0, 0, hullSprite);
+   gb.display.setColor(YELLOW);
+   int hullBarWidth = p1->life / 5;
+   gb.display.fillRect(7, 0, hullBarWidth, 5);
+
+   // AMMUNATION
+   Image ammuSprite(ammuSpriteData);
+   gb.display.drawImage(30, 0, ammuSprite);
+   gb.display.setColor(RED);
+   int ammuBarWidth = p1->ammunation;
+   gb.display.fillRect(35, 0, ammuBarWidth, 5);
+
+   // SCORE
+   gb.display.setColor(WHITE);
+   gb.display.setCursor(60, 0);
+   gb.display.print(p1->score);
+
+   /*
    //debug RAM print
    uint16_t ram = gb.getFreeRam();
    gb.display.print("RAM:");
    gb.display.println(ram);
+   */
 
-   // debug Player HP
-   gb.display.print("HP:");
-   gb.display.println(p1->life);
 
+   /* -------------------------
+    * DRAWING ALL SPRITES
+    */
 
    // Player Projectiles
   for (int j = 0; j < maxProj; j++)
