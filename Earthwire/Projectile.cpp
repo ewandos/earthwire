@@ -1,12 +1,13 @@
 #include "Projectile.h"
 
-Projectile::Projectile(int x, int y, int speedX)
+Projectile::Projectile(int x, int y, int speedX, bool fromPlayer)
 {
     this->x = x;
     this->y = y;
     this->speedX = speedX;
     gb.sound.fx(mySfx);
     this->damage = 10;
+    this->fromPlayer = fromPlayer;
 }
 
 Projectile::~Projectile(){}

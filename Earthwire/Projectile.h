@@ -5,7 +5,7 @@
 class Projectile
 {
   public:
-    Projectile(int, int, int); // x, y and speedX
+    Projectile(int, int, int, bool); // x, y, speedX, fromPlayer
     ~Projectile();
 
     // Variables
@@ -15,6 +15,7 @@ class Projectile
     int y;
     int damage;
     int speed;
+    bool fromPlayer;
 
     // Functions
     void Draw();

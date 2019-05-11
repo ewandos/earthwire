@@ -86,7 +86,7 @@ void Player::Draw()
 
 Projectile* Player::Shoot()
 {
-  return new Projectile(this->x + (this->sizeX / 2), this->y + (this->sizeY / 2), 3);
+  return new Projectile(this->x + (this->sizeX / 2), this->y + (this->sizeY / 2), 3, true);
 }
 
 void Player::CheckProjColl(Projectile* ProjArr[], int maxProj)
@@ -134,7 +134,7 @@ Projectile* Enemy::Shoot()
   int shooting = random(this->shootingRate);
   if (shooting == 0)
   { // e.g. shootingRate = 5 -> 1/5 Chance per Frame the enemy is actually shooting
-    return new Projectile(this->x + (this->sizeX / 2), this->y + (this->sizeY / 2), -2);
+    return new Projectile(this->x + (this->sizeX / 2), this->y + (this->sizeY / 2), -2, false);
   } else
   {
     return nullptr;
