@@ -22,8 +22,6 @@ Projectile* ProjArr [maxProj] = {nullptr};  // Array of Player Projectiles
 Projectile* EnemProjArr [maxEnemProj] = {nullptr};  // Array of Enemy Projectiles
 Enemy* EnemyArr [maxEnem] = {nullptr};  // Array of Enemies
 
-Image enemyExplode(enemyExplodeData); // Explosion-Image
-
 // Array Indexes for going through the arrays
 int projIndex = 0;
 
@@ -120,7 +118,7 @@ void loop() {
     EnemyArr[i]->CheckPlaneColl(p1);
     if (EnemyArr[i]->life <= 0)
     {
-        EnemyArr[i]->explodeTime -= 1; // Start Animation-Countdown
+        EnemyArr[i]->explodeTimer += 1; // Start Animation-Countdown
     }
   }
 
@@ -178,7 +176,7 @@ void loop() {
   // Draw Enemies Plane
   for (int j = 0; j < maxEnem; j++)
   {
-    if (!EnemyArr[j]->Move() || EnemyArr[j]->explodeTime < 0) //Delete when left the screen or exploded
+    if (!EnemyArr[j]->Move() || EnemyArr[j]->explodeTime <= 0) //Delete when left the screen or exploded
     {
       delete EnemyArr[j];
       EnemyArr[j] = nullptr;
@@ -192,7 +190,7 @@ void loop() {
       }
       else
       {
-          gb.display.drawImage(EnemyArr[j]->x, EnemyArr[j]->y, enemyExplode);
+          EnemyArr[j]->Explode();
       }
     }
   }

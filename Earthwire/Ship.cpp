@@ -84,6 +84,11 @@ void Player::Draw()
     gb.display.drawImage(this->x, this->y, playerSprite);
 }
 
+void Player::Explode()
+{
+    //Explosion
+}
+
 Projectile* Player::Shoot()
 {
 
@@ -147,6 +152,19 @@ void Enemy::Draw()
 {
     Image enemySprite(enemySpriteData);
     gb.display.drawImage(this->x, this->y, enemySprite);
+}
+
+void Enemy::Explode()
+{
+    Image enemyExplode(enemyExplodeData);
+    int animSpeed = DEFAULT_ANIMATION_SPEED;
+    int actualImg = (this->explodeTimer-1)/animSpeed;
+    this->explodeTime = (enemyExplode.frames * animSpeed) - this->explodeTimer;
+    for(int i=0; i<actualImg; i++)
+    {
+      enemyExplode.frame_handler->next();
+    }
+    gb.display.drawImage(this->x, this->y, enemyExplode);
 }
 
 void Enemy::CheckProjColl(Projectile* ProjArr[], int maxProj)
