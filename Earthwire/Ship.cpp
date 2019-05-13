@@ -158,13 +158,13 @@ void Enemy::Explode()
 {
     Image enemyExplode(enemyExplodeData);
     int animSpeed = DEFAULT_ANIMATION_SPEED;
-    int actualImg = (this->explodeTimer-1)/animSpeed;
-    this->explodeTime = (enemyExplode.frames * animSpeed) - this->explodeTimer;
-    for(int i=0; i<actualImg; i++)
+    int curImg = 1 + (this->explodeTimer-1)/animSpeed; //current image of animation
+    for(int i=1; i<curImg; i++)
     {
-      enemyExplode.frame_handler->next();
+        enemyExplode.frame_handler->next(); //gives drawImage-function information to refer to next image of the animation
     }
     gb.display.drawImage(this->x, this->y, enemyExplode);
+    this->explodeTime = (enemyExplode.frames * animSpeed) - this->explodeTimer;
 }
 
 void Enemy::CheckProjColl(Projectile* ProjArr[], int maxProj)
