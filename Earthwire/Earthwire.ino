@@ -50,7 +50,7 @@ void loop()
   while (!gb.update());
     if (gameState)
     {
-      
+
       /* ------------------------
    * CALCULATION AND SPAWNING
    */
@@ -94,19 +94,17 @@ void loop()
         }
       }
 
-      // Evaluate which Enemies will shoot next based on the max count of Projectiles onscreen
-      for (int j = 0; j < maxEnem; j++)
-      { // goes through Enemies
-        if (EnemyArr[j] != nullptr && curEnemProj < maxEnemProj)
-        { // Enemy Object found, Enemy is allowed to shoot
-          for (int i = 0; i < maxEnemProj; i++)
-          { // goes through Projectiles
-            if (EnemProjArr[i] == nullptr)
-            { // it can be shooten
-              EnemProjArr[i] = EnemyArr[j]->Shoot();
-              // Shoot returns Projetile Pointer or nullptr based on its shooting rate
-            }
-          }
+  // Evaluate which Enemies will shoot next based on the max count of Projectiles onscreen
+  for (int j = 0; j < maxEnem; j++)
+  { // goes through Enemies
+    if (EnemyArr[j] != nullptr && curEnemProj < maxEnemProj && EnemyArr[j]->life > 0)
+    { // Enemy Object found, Enemy is allowed to shoot
+      for (int i = 0; i < maxEnemProj; i++)
+      { // goes through Projectiles
+        if (EnemProjArr[i] == nullptr)
+        { // it can be shooten
+          EnemProjArr[i] = EnemyArr[j]->Shoot();
+          // Shoot returns Projetile Pointer or nullptr based on its shooting rate
         }
       }
 
@@ -117,8 +115,10 @@ void loop()
       for (int i = 0; i < maxEnem; i++)
       {
         EnemyArr[i]->CheckProjColl(ProjArr, maxProj);
+        EnemyArr[i]->CheckPlaneColl(p1);
         if (EnemyArr[i]->life <= 0)
         {
+            EnemyArr[i]->explodeTimer += 1; // Start Animation-Countdown
             gb.lights.fill(RED); //TODO: Check on real hardware
             gb.lights.fill(YELLOW);
             gb.sound.fx(mySfx);
@@ -130,7 +130,7 @@ void loop()
 
       gb.display.setCursor(0, 10);
       gb.display.println(p1->life);
-    
+
   if (p1->life < 1)
   {
     gameState = 0; //TODO: Refactor this into a function call on damage recieve
@@ -205,7 +205,7 @@ void loop()
   // Draw Enemies Plane
   for (int j = 0; j < maxEnem; j++)
   {
-    if (!EnemyArr[j]->Move())
+    if (!EnemyArr[j]->Move() || EnemyArr[j]->explodeTime <= 0) //Delete when left the screen or exploded
     {
       delete EnemyArr[j];
       EnemyArr[j] = nullptr;
@@ -213,7 +213,14 @@ void loop()
     }
     if (EnemyArr[j] != nullptr)
     {
-      EnemyArr[j]->Draw();
+      if (EnemyArr[j]->life > 0)
+      {
+          EnemyArr[j]->Draw();
+      }
+      else
+      {
+          EnemyArr[j]->Explode();
+      }
     }
   }
 
