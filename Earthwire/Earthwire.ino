@@ -107,6 +107,8 @@ void loop()
           // Shoot returns Projetile Pointer or nullptr based on its shooting rate
         }
       }
+    }
+  }
 
       // Check for Collisions & Lifepoints of PLAYER
       p1->CheckProjColl(EnemProjArr, maxEnemProj);
