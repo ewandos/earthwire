@@ -8,6 +8,7 @@
 */
 
 Game *game = new Game();
+
 enum GameState
 {
     inGame, gameOver
@@ -103,6 +104,7 @@ void loop()
 
         //debug RAM print
         uint16_t ram = gb.getFreeRam();
+        gb.display.setCursor(0, 59);
         gb.display.print("RAM:");
         gb.display.println(ram);
 
@@ -120,7 +122,8 @@ void loop()
     {
         gb.display.clear();
         gb.sound.fx(mySfx);
-        gb.display.print("PRESS A TO RESTART YOU NOOB");
+        gb.display.setCursor(5, 30);
+        gb.display.print("PRESS A TO RESTART");
 
         //Game* temp = game;
         //delete temp;
