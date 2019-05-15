@@ -1,5 +1,6 @@
 #include <Gamebuino-Meta.h>
 #include "Ship.h"
+#include "Explosion.h"
 
 /*
 * =====================
@@ -11,9 +12,10 @@ Player *p1 = new Player(8, 9, 'a');
 
 //the purpose of this arrays is to limit the stuff that gets drawn on screen
 // current values are for testing
-const int maxProj = 5;
-const int maxEnem = 2;
+const int maxProj = 10;
+const int maxEnem = 1;
 const int maxEnemProj = 5;
+const int maxExplosions = maxEnem + 1;
 
 int curEnem = 0;     // current number of enemies on screen
 int curEnemProj = 0; // current number of enemie projectiles
@@ -21,11 +23,24 @@ int curEnemProj = 0; // current number of enemie projectiles
 Projectile *ProjArr[maxProj] = {nullptr};         // Array of Player Projectiles
 Projectile *EnemProjArr[maxEnemProj] = {nullptr}; // Array of Enemy Projectiles
 Enemy *EnemyArr[maxEnem] = {nullptr};             // Array of Enemies
+Explosion *ExplosionsArr[maxExplosions] = {nullptr};
 
 // Array Indexes for going through the arrays
 int projIndex = 0;
 int deleted = 0; //used to only clean up everything once, probably really bad practice
 int gameState = 1; //used to differentiate between game and game end (potentially high score screen); maybe use enum in future?
+
+
+bool NoExplosionsLeft (Explosion** ExplosionsArr, int arraySize)
+{
+    for (int i = 0; i < arraySize; i++)
+    {
+        if (ExplosionsArr[i] != nullptr)
+            return false;
+    }
+
+    return true;
+}
 
 /*
 * =====================
@@ -112,31 +127,33 @@ void loop()
         // Check for Collisions & Lifepoints of PLAYER
         p1->CheckProjColl(EnemProjArr, maxEnemProj);
 
-        if (p1->life < 1)
+        if (p1->life <= 0)
         {
-            p1->explodeTimer += 1;
-            if (p1->explodeTime <= 0)
+            if (!p1->isDestroyed)
             {
-                gameState = 0; //TODO: Refactor this into a function call on damage recieve
+                p1->Explode(ExplosionsArr, maxExplosions);
+            } else if (NoExplosionsLeft(ExplosionsArr, maxExplosions))
+            {
+                gameState = 0;
             }
         }
 
         // Check for Collision & Lifepoints of Enemies
         for (int i = 0; i < maxEnem; i++)
         {
-            EnemyArr[i]->CheckProjColl(ProjArr, maxProj);
-
             if (EnemyArr[i]->life > 0)
             {
+                EnemyArr[i]->CheckProjColl(ProjArr, maxProj);
                 EnemyArr[i]->CheckPlaneColl(p1);
-            }
-
-            if (EnemyArr[i]->life <= 0)
+            } else
             {
-                EnemyArr[i]->explodeTimer += 1; // Start Animation-Countdown
+                EnemyArr[i]->Explode(ExplosionsArr, maxExplosions);
                 gb.lights.fill(RED); //TODO: Check on real hardware
                 gb.lights.fill(YELLOW);
                 gb.sound.fx(mySfx);
+                delete EnemyArr[i];
+                EnemyArr[i] = nullptr;
+                curEnem--;
                 // Destroy Enemy
             }
         }
@@ -166,12 +183,10 @@ void loop()
         gb.display.setCursor(60, 0);
         gb.display.print(p1->score);
 
-        /*
          //debug RAM print
          uint16_t ram = gb.getFreeRam();
          gb.display.print("RAM:");
          gb.display.println(ram);
-         */
 
         /* -------------------------
           * DRAWING ALL SPRITES
@@ -212,7 +227,7 @@ void loop()
         // Draw Enemies Plane
         for (int j = 0; j < maxEnem; j++)
         {
-            if (!EnemyArr[j]->Move() || EnemyArr[j]->explodeTime <= 0) //Delete when left the screen or exploded
+            if (!EnemyArr[j]->Move()) //Delete when left the screen or exploded
             {
                 delete EnemyArr[j];
                 EnemyArr[j] = nullptr;
@@ -223,9 +238,6 @@ void loop()
                 if (EnemyArr[j]->life > 0)
                 {
                     EnemyArr[j]->DrawPlane();
-                } else
-                {
-                    EnemyArr[j]->DrawExplosion();
                 }
             }
         }
@@ -234,9 +246,20 @@ void loop()
         if (p1->life > 0)
         {
             p1->DrawPlane();
-        } else
+        }
+
+        // Draw Explosions
+        for (int i = 0; i < maxEnem + 1; i++)
         {
-            p1->DrawExplosion();
+            if (ExplosionsArr[i] != nullptr && ExplosionsArr[i]->explodeTime > 0)
+            {
+                ExplosionsArr[i]->explodeTimer += 1;
+                ExplosionsArr[i]->DrawExplosion();
+            } else if (ExplosionsArr[i] != nullptr && ExplosionsArr[i]->explodeTime <= 0)
+            {
+                delete ExplosionsArr[i];
+                ExplosionsArr[i] = nullptr;
+            }
         }
 
     } else //code goes here if gameState = 0;

@@ -7,31 +7,29 @@
 * =====================
 */
 
-Ship::Ship(int x, int y)
-{ // Set Start Coordinates
-    this->x = x;
-    this->y = y;
-}
-
 Ship::Ship()
-{
+{ // Set Start Coordinates
+    this->isDestroyed = false;
 }
 
 Ship::~Ship()
 {
 }
 
-void Ship::DrawExplosion()
+void Ship::Explode(Explosion** Arr, int max)
 {
-    Image enemyExplode(enemyExplodeData);
-    int animSpeed = DEFAULT_ANIMATION_SPEED;
-    int curImg = 1 + (this->explodeTimer - 1) / animSpeed; //current image of animation
-    for (int i = 1; i < curImg; i++)
+    this->life = 0;
+    for (int i = 0; i < max; i++)
     {
-        enemyExplode.frame_handler->next(); //gives drawImage-function information to refer to next image of the animation
+        if (Arr[i] == nullptr)
+        {
+            Arr[i] = new Explosion(this->x, this->y);
+        } else if (Arr[max-1] != nullptr) {
+            delete Arr[0];
+            Arr[0] = new Explosion(this->x, this->y);
+        }
     }
-    gb.display.drawImage(this->x, this->y, enemyExplode);
-    this->explodeTime = (enemyExplode.frames * animSpeed) - this->explodeTimer;
+    this->isDestroyed = true;
 }
 
 /*
