@@ -3,8 +3,6 @@
 #include <cstdlib>
 #include "graphics.cpp"
 #include "sounds.cpp"
-
-// Components
 #include "Projectile.h"
 
 #define DEFAULT_ANIMATION_SPEED 3 // frames per image
@@ -29,9 +27,9 @@ public:
     float speed;
 
     // Functions
+    void DrawExplosion();
     virtual void CheckProjColl(Projectile*[], int maxProj) = 0; // Checks Collision based on Projectile Array
-    virtual void Draw() = 0;  // Interface for child classes
-    virtual void Explode() = 0; // Interface for child classes
+    virtual void DrawPlane() = 0;  // Interface for child classes
     virtual Projectile* Shoot() = 0;  // Interface for child classes
 };
 
@@ -46,8 +44,7 @@ public:
   int ammunation;
 
   // Functions
-  void Draw();
-  void Explode();
+  void DrawPlane();
   bool Move(char);  // Changes Coordinates based on Input
   Projectile* Shoot();
   void CheckProjColl(Projectile*[], int maxProj);
@@ -63,8 +60,7 @@ public:
   int shootingRate; // how often the enemy shoots
 
   // Functions
-  void Draw();
-  void Explode();
+  void DrawPlane();
   bool Move();
   Projectile* Shoot();
   void CheckProjColl(Projectile*[], int maxProj);
