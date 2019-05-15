@@ -18,6 +18,11 @@ void Explosion::DrawExplosion()
     for (int i = 1; i < curImg; i++)
     {
         enemyExplode.frame_handler->next(); //gives drawImage-function information to refer to next image of the animation
+
+        if (i <= 2)
+            gb.lights.fill(YELLOW);
+        else
+            gb.lights.fill(BLACK);
     }
     this->explodeTime = (enemyExplode.frames * animSpeed) - this->explodeTimer;
 

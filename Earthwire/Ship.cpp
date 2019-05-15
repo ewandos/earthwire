@@ -192,14 +192,18 @@ void Enemy::CheckPlaneColl(Ship *player)
     }
 }
 
-bool Enemy::Move()
+void Enemy::Move()
 {
     this->x -= this->speed;
+}
+
+bool Enemy::isOOB()
+{
     if ((this->x + this->sizeX) < 0)
     { // left screen on the left side
-        return false;
+        return true;
     } else
     {
-        return true;
+        return false;
     }
 }

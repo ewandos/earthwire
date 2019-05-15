@@ -13,7 +13,7 @@ Player *p1 = new Player(8, 9, 'a');
 //the purpose of this arrays is to limit the stuff that gets drawn on screen
 // current values are for testing
 const int maxProj = 10;
-const int maxEnem = 1;
+const int maxEnem = 2;
 const int maxEnemProj = 5;
 const int maxExplosions = maxEnem + 1;
 
@@ -28,7 +28,10 @@ Explosion *ExplosionsArr[maxExplosions] = {nullptr};
 // Array Indexes for going through the arrays
 int projIndex = 0;
 int deleted = 0; //used to only clean up everything once, probably really bad practice
-int gameState = 1; //used to differentiate between game and game end (potentially high score screen); maybe use enum in future?
+
+
+enum GameState {inGame, gameOver};
+int gameState = inGame; //used to differentiate between game and game end (potentially high score screen); maybe use enum in future?
 
 
 bool NoExplosionsLeft (Explosion** ExplosionsArr, int arraySize)
@@ -62,7 +65,7 @@ void setup()
 void loop()
 {
     while (!gb.update());
-    if (gameState)
+    if (gameState == inGame)
     {
 
         /* ------------------------
@@ -134,29 +137,66 @@ void loop()
                 p1->Explode(ExplosionsArr, maxExplosions);
             } else if (NoExplosionsLeft(ExplosionsArr, maxExplosions))
             {
-                gameState = 0;
+                gameState = gameOver;
             }
         }
 
         // Check for Collision & Lifepoints of Enemies
         for (int i = 0; i < maxEnem; i++)
         {
-            if (EnemyArr[i]->life > 0)
+            if (EnemyArr[i] != nullptr)
             {
-                EnemyArr[i]->CheckProjColl(ProjArr, maxProj);
-                EnemyArr[i]->CheckPlaneColl(p1);
-            } else
-            {
-                EnemyArr[i]->Explode(ExplosionsArr, maxExplosions);
-                gb.lights.fill(RED); //TODO: Check on real hardware
-                gb.lights.fill(YELLOW);
-                gb.sound.fx(mySfx);
-                delete EnemyArr[i];
-                EnemyArr[i] = nullptr;
-                curEnem--;
-                // Destroy Enemy
+                if (EnemyArr[i]->life > 0 && !EnemyArr[i]->isOOB())
+                {
+                    EnemyArr[i]->Move();
+                    EnemyArr[i]->CheckProjColl(ProjArr, maxProj);
+                    EnemyArr[i]->CheckPlaneColl(p1);
+                } else
+                {
+                    if (EnemyArr[i]->life <= 0)
+                    {
+                        EnemyArr[i]->Explode(ExplosionsArr, maxExplosions);
+                    }
+
+                    delete EnemyArr[i];
+                    EnemyArr[i] = nullptr;
+                    curEnem--;
+                }
             }
         }
+
+        // Deletes OOB Projectiles of Player
+        for (int i = 0; i < maxProj; i++)
+        {
+            if (ProjArr[i] != nullptr)
+            {
+                if (ProjArr[i]->isOOB())
+                {
+                    delete ProjArr[i];
+                    ProjArr[i] = nullptr;
+                } else
+                {
+                    ProjArr[i]->Move();
+                }
+            }
+        }
+
+        // Go through Enemy Projectiles and moves or deletes them if they are OOB
+        for (int i = 0; i < maxEnemProj; i++)
+        {
+            if (EnemProjArr[i] != nullptr)
+            {
+                if (EnemProjArr[i]->isOOB())
+                {
+                    delete EnemProjArr[i];
+                    EnemProjArr[i] = nullptr;
+                } else
+                {
+                    EnemProjArr[i]->Move();
+                }
+            }
+        }
+
         // clear the previous screen
         gb.display.clear();
 
@@ -195,50 +235,27 @@ void loop()
         // Player Projectiles
         for (int j = 0; j < maxProj; j++)
         {
-            if (ProjArr[j] != nullptr)
+            if (ProjArr[j] != nullptr && !ProjArr[j]->isOOB())
             {
-                if (!ProjArr[j]->Move())
-                {
-                    delete ProjArr[j];
-                    ProjArr[j] = nullptr;
-                }
-                if (ProjArr[j] != nullptr)
-                    ProjArr[j]->Draw();
+                ProjArr[j]->Draw();
             }
         }
 
         // Enemy Projectiles
         for (int j = 0; j < maxEnemProj; j++)
         {
-            if (EnemProjArr[j] != nullptr)
+            if (EnemProjArr[j] != nullptr && !EnemProjArr[j]->isOOB())
             {
-                if (!EnemProjArr[j]->Move()) // Moves the Projectile and checks if it is offscreen
-                {                            // its  offscreen
-                    delete EnemProjArr[j];
-                    EnemProjArr[j] = nullptr;
-                }
-                if (EnemProjArr[j] != nullptr)
-                { // Projectule drawn
-                    EnemProjArr[j]->Draw();
-                }
+                EnemProjArr[j]->Draw();
             }
         }
 
         // Draw Enemies Plane
         for (int j = 0; j < maxEnem; j++)
         {
-            if (!EnemyArr[j]->Move()) //Delete when left the screen or exploded
+            if (EnemyArr[j] != nullptr && !EnemyArr[j]->isOOB() && EnemyArr[j]->life > 0)
             {
-                delete EnemyArr[j];
-                EnemyArr[j] = nullptr;
-                curEnem--;
-            }
-            if (EnemyArr[j] != nullptr)
-            {
-                if (EnemyArr[j]->life > 0)
-                {
-                    EnemyArr[j]->DrawPlane();
-                }
+                EnemyArr[j]->DrawPlane();
             }
         }
 
@@ -262,7 +279,9 @@ void loop()
             }
         }
 
-    } else //code goes here if gameState = 0;
+    }
+
+    else if (gameState = gameOver)
     {
         gb.display.clear();
         gb.sound.fx(mySfx);
@@ -304,7 +323,7 @@ void loop()
         {
             delete p1;
             p1 = new Player(10, 10, 'a');
-            gameState = 1;
+            gameState = inGame;
         }
     }
 }

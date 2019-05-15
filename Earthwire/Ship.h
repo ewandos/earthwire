@@ -58,7 +58,8 @@ public:
 
   // Functions
   void DrawPlane();
-  bool Move();
+  void Move();
+  bool isOOB();
   Projectile* Shoot();
   void CheckProjColl(Projectile*[], int maxProj);
   void CheckPlaneColl(Ship*);

@@ -19,5 +19,6 @@ class Projectile
 
     // Functions
     void Draw();
-    bool Move(); // this returns a bool to decide whether the object should be deleted because it's oob
+    void Move(); // this returns a bool to decide whether the object should be deleted because it's oob
+    bool isOOB();
 };
