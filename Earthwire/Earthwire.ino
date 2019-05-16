@@ -88,26 +88,29 @@ void loop()
         gb.display.drawImage(0, 0, hullSprite);
         gb.display.setColor(YELLOW);
         int hullBarWidth = game->p1->life / 5;
-        gb.display.fillRect(7, 0, hullBarWidth, 5);
+        gb.display.fillRect(8, 0, hullBarWidth, 5);
+        gb.display.drawRect(7, 0, 22, 5);
 
         // AMMUNATION
         Image ammuSprite(ammuSpriteData);
-        gb.display.drawImage(30, 0, ammuSprite);
+        gb.display.drawImage(32, 0, ammuSprite);
         gb.display.setColor(RED);
-        int ammuBarWidth = game->p1->ammunation;
-        gb.display.fillRect(35, 0, ammuBarWidth, 5);
+        int ammuBarWidth = game->p1->ammunation / 5;
+        gb.display.fillRect(38, 0, ammuBarWidth, 5);
+        gb.display.drawRect(37, 0, 22, 5);
 
         // SCORE
         gb.display.setColor(WHITE);
-        gb.display.setCursor(60, 0);
+        gb.display.setCursor(63, 0);
         gb.display.print(game->p1->score);
 
+        /*
         //debug RAM print
         uint16_t ram = gb.getFreeRam();
         gb.display.setCursor(0, 59);
         gb.display.print("RAM:");
         gb.display.println(ram);
-
+        */
 
         /*
         * D R A W I N G   S P R I T E S
@@ -122,11 +125,8 @@ void loop()
     {
         gb.display.clear();
         gb.sound.fx(mySfx);
-        gb.display.setCursor(5, 30);
-        gb.display.print("PRESS A TO RESTART");
-
-        //Game* temp = game;
-        //delete temp;
+        gb.display.setCursor(5, 35);
+        gb.display.print("Press A to restart");
 
         delete game;
         game = new Game();

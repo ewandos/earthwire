@@ -20,7 +20,7 @@ public:
     int sizeY = 5;
     int wingX1;     // x-position of Wings
     int wingX2;
-    float speed;
+    int speed;
     bool isDestroyed;
 
     // Functions
@@ -55,6 +55,8 @@ public:
 
   // Variables
   int shootingRate; // how often the enemy shoots
+  int movementRange; // how far the enemy moved
+  int movementRate; // enemy moves every x frames
 
   // Functions
   void DrawPlane();

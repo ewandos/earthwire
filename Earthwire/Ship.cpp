@@ -47,7 +47,7 @@ Player::Player(int x, int y, char c)
     this->sizeX = 7; // width of playerSprite
     this->sizeY = 9; // height of playerSprite
     this->speed = 1;
-    this->ammunation = 15;
+    this->ammunation = 100;
     this->score = 0;
     this->wingX1 = 2; //wing-position of playerSprite
     this->wingX2 = 4;
@@ -137,6 +137,8 @@ Enemy::Enemy(int shootingRate)
     this->wingX1 = 4;
     this->wingX2 = 6;
     this->speed = 1;
+    this->movementRate = 2;
+    this->movementRange = 0;
 
     // set coords based on sprite-size
     this->x = gb.display.width(); // spawns outside of the screen
@@ -194,7 +196,13 @@ void Enemy::CheckPlaneColl(Ship *player)
 
 void Enemy::Move()
 {
-    this->x -= this->speed;
+    // Used to slow down enemy planes and let them move every x = movementRate frames
+    this->movementRange++;
+    if (this->movementRange % this->movementRate == 0)
+    {
+        this->x -= this->speed;
+        this->movementRange = 0;
+    }
 }
 
 bool Enemy::isOOB()

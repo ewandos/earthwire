@@ -99,15 +99,21 @@ void Game::CheckEnemiesStatus()
         if (EnemyArr[i] != nullptr)
         {
             if (EnemyArr[i]->life > 0 && !EnemyArr[i]->isOOB())
-            {
+            {   // Is Alive & On Screen
                 EnemyArr[i]->Move();
                 EnemyArr[i]->CheckProjColl(ProjArr, MAX_PLAYER_PROJECTILES);
                 EnemyArr[i]->CheckPlaneColl(p1);
             } else
             {
                 if (EnemyArr[i]->life <= 0)
-                {
+                {   // killed Enemy
+                    p1->score += POINTS_PER_KILLED_ENEMY;
                     EnemyArr[i]->Explode(ExplosionsArr, MAX_EXPLOSIONS);
+                }
+
+                if (EnemyArr[i]->isOOB() && p1->score >= MINUS_POINTS_PER_MISSED_ENEMY)
+                {   // Player missed to kill enemy
+                    p1->score -= MINUS_POINTS_PER_MISSED_ENEMY;
                 }
 
                 delete EnemyArr[i];

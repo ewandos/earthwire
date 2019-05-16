@@ -5,16 +5,34 @@
 #include "Ship.h"
 #include "Explosion.h"
 
+/*
+* ====================
+* G A M E - C L A S S
+* ====================
+* Contains every function to calculate or draw game mechanics.
+* This makes it possible to dynamically delete Games, create new ones.
+* For testing the core settings of the game are set by macros like MAX_EXPLOSIONS.
+* In future this could be changed to Constructor-Parameters to be capable of
+* changing the difficulty of a new level.
+*
+* The functions remained the same. There a just a few name changes.
+* I quit to use the "this->" pointer, cause the class takes no parameters or extern
+* variables.
+*
+*
+*/
+
 #define MAX_ENEMIES_SPAWN 2
 #define MAX_PLAYER_PROJECTILES 10
 #define MAX_ENEMY_PROJECTILES 5
 #define MAX_EXPLOSIONS MAX_ENEMIES_SPAWN + 1
+#define POINTS_PER_KILLED_ENEMY 5
+#define MINUS_POINTS_PER_MISSED_ENEMY 10
 
 class Game
 {
 public:
     Game();
-
     ~Game();
 
     /*
