@@ -61,6 +61,11 @@ void loop()
         {
             game->PlayerShoots();
         }
+        // Recharging mechanic
+        if (gb.buttons.pressed(BUTTON_B) || game->p1->recharging) // Right now this gets called per frame (mostly because it's the easiest and cleanest method)
+        {
+            game->PlayerRecharges();
+        }
 
         /*
         * C A L C U L A T O N

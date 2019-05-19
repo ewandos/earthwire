@@ -39,12 +39,14 @@ public:
   char name;
   int score;
   int ammunation;
+  bool recharging; // determines, if the player is currently restocking ammo
 
   // Functions
   void DrawPlane();
   bool Move(char);  // Changes Coordinates based on Input
   Projectile* Shoot();
   void CheckProjColl(Projectile*[], int maxProj);
+  void Recharge(); // handles refilling of Ammo
 };
 
 class Enemy : public Ship

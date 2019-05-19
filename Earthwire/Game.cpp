@@ -228,3 +228,38 @@ void Game::DrawExplosions()
         }
     }
 }
+
+void Game::PlayerRecharges()
+{
+    if (!p1->recharging) // if the player presses B, the recharging logic gets started
+        p1->recharging = true;
+    p1->Recharge(); // basically just a setter for the ammo
+    if (p1->ammunation >= 100) // if the ammo reaches 100, the recharging process gets terminated
+        p1->recharging = false;
+
+
+/*
+    If this was to be done with a timer instead of being framerate-based, the logic would supposedly look something like this (absolutely untested, just mental gymnastics)
+    if (!p1->recharging)
+    {
+        int timeFrame = 250; // how long it should take to charge
+        p1->recharging = true;
+        int timer = milis();
+        int timerAux = 0;
+        int timerEnd = millis() + timeFrame;
+        int AmmoAux = 100 - this->ammunation; // get how much ammo is missing
+        AmmoAux /= timeFrame; // how much ammo per ms (ammo is int?, might be problematic)        
+    }
+    timerAux = milis() - timer; // figure out how many ms have passed in the last frame
+    for (int i = 0; i < (AmmoAux * timerAux); i++) // add as much ammo you need per ms times the ms that have passed
+    {
+        p1-Recharge(); // (Would need to check if the ammo is full in Recharge() for this, or find another way to terminate this)
+    }
+
+    timer = milis(); // capture frame time for the next frame
+
+
+    if (p1->ammunation >= 100) // if the ammo reaches 100, the recharging process gets terminated
+        p1->recharging = false;
+*/
+}

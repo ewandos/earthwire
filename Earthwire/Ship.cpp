@@ -8,7 +8,7 @@
 */
 
 Ship::Ship()
-{ // Set Start Coordinates
+{
     this->isDestroyed = false;
 }
 
@@ -42,7 +42,7 @@ Player::Player(int x, int y, char c)
 {
     this->x = x;
     this->y = y;
-    this->name = name;
+    this->name = name; // Not used yet anyway, but maybe this->name = c; intended?
     this->life = 100;
     this->sizeX = 7; // width of playerSprite
     this->sizeY = 9; // height of playerSprite
@@ -51,6 +51,7 @@ Player::Player(int x, int y, char c)
     this->score = 0;
     this->wingX1 = 2; //wing-position of playerSprite
     this->wingX2 = 4;
+    this->recharging = 0; // player does start out with full ammo, not in the process of recharging
 }
 
 Player::~Player()
@@ -102,6 +103,16 @@ void Player::DrawPlane()
 
 Projectile *Player::Shoot()
 {
+    if (this->recharging) // if the player is restocking ammo, do not shoot
+    {
+        return nullptr;
+    }
+    if (this->ammunation <= 0) // if the player does not have any ammo left, play a sound and then do not shoot
+    {
+        gb.sound.fx(mySfx);
+        return nullptr;
+    }
+    this->ammunation--; // the player shoots, so ammunation is being taken out of his plane
     return new Projectile(this->x + (this->sizeX / 2), this->y + (this->sizeY / 2), 3, true);
 }
 
@@ -119,6 +130,11 @@ void Player::CheckProjColl(Projectile *ProjArr[], int maxProj)
             ProjArr[i] = nullptr;
         }
     }
+}
+
+void Player::Recharge()
+{
+    this->ammunation++;  // core ammo setter, right now it adds 1 shot per frame, might want to mess with that for balance settings in the future? Works well enough now though
 }
 
 /*
