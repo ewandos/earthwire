@@ -62,6 +62,7 @@ public:
 
     // Calculation
     void PlayerShoots();
+    void PlayerRecharges(); // wrapper function for ammo recharge
     void SpawnEnemies();
     void LetEnemiesShoot();
 
