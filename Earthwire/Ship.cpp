@@ -127,11 +127,11 @@ void Player::CheckProjColl(Projectile *ProjArr[], int maxProj)
 * =====================
 */
 
-Enemy::Enemy(int shootingRate)
+Enemy::Enemy(int y, int shootingRate)
 {
     this->shootingRate = shootingRate;
     // Enemy needs no parameters for coords, cause of random generation
-    randomSeed(analogRead(0));  // init Random Seed
+    // init Random Seed
     this->sizeX = 12; // width of playerSprite
     this->sizeY = 15; // height of playerSprite
     this->wingX1 = 4;
@@ -140,10 +140,8 @@ Enemy::Enemy(int shootingRate)
     this->movementRate = 2;
     this->movementRange = 0;
 
-    // set coords based on sprite-size
     this->x = gb.display.width(); // spawns outside of the screen
-    this->y = random(gb.display.height() - this->sizeY);
-
+    this->y = y;
     this->life = 30;
 }
 

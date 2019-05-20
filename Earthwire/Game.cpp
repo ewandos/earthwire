@@ -2,11 +2,13 @@
 
 Game::Game()
 {
+    randomSeed(analogRead(0));
     this->p1 = new Player(8, 9, 'a');
 
     this->curEnem = 0;
     this->curEnemProj = 0;
     this->projIndex = 0;
+    this->enemySpawnTimer = 0;
 }
 
 Game::~Game()
@@ -43,13 +45,23 @@ void Game::PlayerShoots()
 
 void Game::SpawnEnemies()
 {
-    // Spawn new Enemy based on the max count of Enemies onscreen
-    for (int j = 0; j < MAX_ENEMIES_SPAWN; j++)
+    // creating Slots that are sized half the height of enemies prite-height
+    // when enemy is created, the slot is reserved (bool array)
+    // if enemy is deleted slot is free
+
+    // slots array is the enemyArr BUT the spawning should be handled differently
+    int randomSlot = random(MAX_ENEMIES_SPAWN);
+
+    if (curEnem < MAX_ENEMIES_ON_SCREEN && EnemyArr[randomSlot] == nullptr)
     {
-        if (curEnem < MAX_ENEMIES_SPAWN && EnemyArr[j] == nullptr)
+        if (enemySpawnTimer >= ENEMY_SPAWN_RATE)
         {
-            EnemyArr[j] = new Enemy(100); // creating Enemy with shootingRate of 50 (testing!)
-            curEnem++;
+          EnemyArr[randomSlot] = new Enemy(8 * randomSlot, ENEMY_DIFFICULTY); // creating Enemy with shootingRate of 50 (testing!)
+          curEnem++;
+          enemySpawnTimer = 0;
+        } else
+        {
+          enemySpawnTimer++;
         }
     }
 }

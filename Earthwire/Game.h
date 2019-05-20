@@ -22,12 +22,15 @@
 *
 */
 
-#define MAX_ENEMIES_SPAWN 2
+#define MAX_ENEMIES_SPAWN 8 // actually number of slots where enemys can spawn, to prevent that they flying behind each other
+#define ENEMY_SPAWN_RATE 20 // spawn enemy every x frames after another
+#define MAX_ENEMIES_ON_SCREEN 2 // maximum enemies that are on screen at the same time
 #define MAX_PLAYER_PROJECTILES 10
 #define MAX_ENEMY_PROJECTILES 5
 #define MAX_EXPLOSIONS MAX_ENEMIES_SPAWN + 1
 #define POINTS_PER_KILLED_ENEMY 5
 #define MINUS_POINTS_PER_MISSED_ENEMY 10
+#define ENEMY_DIFFICULTY 100
 
 class Game
 {
@@ -44,6 +47,7 @@ public:
     int curEnem;  // current number of enemies on screen
     int curEnemProj;  // current number of enemie projectiles
     int projIndex;    // Array Indexes for going through the arrays
+    int enemySpawnTimer;
 
     //the purpose of this arrays is to limit the stuff that gets drawn on screen
     // current values are for testing

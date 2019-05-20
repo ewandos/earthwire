@@ -50,7 +50,7 @@ public:
 class Enemy : public Ship
 {
 public:
-  Enemy(int shootingRate);
+  Enemy(int y, int shootingRate);
   ~Enemy();
 
   // Variables
