@@ -9,6 +9,13 @@ Game::Game()
     this->curEnemProj = 0;
     this->projIndex = 0;
     this->enemySpawnTimer = 0;
+    this->rank = MAX_HIGHSCORES+1;
+
+    for(int i=0;i<MAX_HIGHSCORES;i++)   // load highscore
+    {
+      this->highscore[i] = 0;
+      this->highscore[i] = gb.save.get(i);
+    }
 }
 
 Game::~Game()
@@ -275,3 +282,46 @@ void Game::PlayerRecharges()
         p1->recharging = false;
 */
 }
+
+void Game::setHighscore()
+{
+  if (this->p1->score > this->highscore[MAX_HIGHSCORES-1])
+  {
+    for(int i=MAX_HIGHSCORES-1; i>=0; i--)
+    {
+      if(this->p1->score > this->highscore[i])
+      {
+        this->rank=i;
+      }
+    }
+    for(int i=MAX_HIGHSCORES-1; i>this->rank; i--)
+    {
+          this->highscore[i] = this->highscore[i-1];
+          gb.save.set(i,this->highscore[i]);
+    }
+    this->highscore[this->rank] = this->p1->score;
+    gb.save.set(this->rank,this->highscore[this->rank]);
+    this->p1->score = 0;
+  }
+}
+
+void Game::printHighscore()
+{
+  gb.display.setCursor(20,7);
+  gb.display.println("HIGHSCORE");
+  gb.display.println();
+  for(int i = 0; i < MAX_HIGHSCORES; i++)
+  {
+    if(i == this->rank)
+    {
+      gb.display.setColor(Color::red);
+      gb.display.println(this->highscore[i]);
+      gb.display.setColor(Color::white);
+    }
+    else
+    {
+      gb.display.println(this->highscore[i]);
+    }
+  }
+}
+

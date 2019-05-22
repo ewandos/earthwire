@@ -24,7 +24,7 @@ int gameState = inGame;
 
 void setup()
 {
-    gb.begin();
+    gb.begin(); 
 }
 
 /*
@@ -130,14 +130,15 @@ void loop()
     {
         gb.display.clear();
         gb.sound.fx(mySfx);
-        gb.display.setCursor(5, 35);
-        gb.display.print("Press A to restart");
-
-        delete game;
-        game = new Game();
+        game->setHighscore();
+        game->printHighscore();
+        gb.display.setCursor(7,(gb.display.height()-10));
+        gb.display.print("Press Button 'A'");
 
         if (gb.buttons.pressed(BUTTON_A))
         {
+            delete game;
+            game = new Game();
             gameState = inGame;
         }
     }

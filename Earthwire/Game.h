@@ -31,6 +31,7 @@
 #define POINTS_PER_KILLED_ENEMY 5
 #define MINUS_POINTS_PER_MISSED_ENEMY 10
 #define ENEMY_DIFFICULTY 100
+#define MAX_HIGHSCORES 5
 
 class Game
 {
@@ -48,6 +49,8 @@ public:
     int curEnemProj;  // current number of enemie projectiles
     int projIndex;    // Array Indexes for going through the arrays
     int enemySpawnTimer;
+    int highscore[MAX_HIGHSCORES];
+    int rank;
 
     //the purpose of this arrays is to limit the stuff that gets drawn on screen
     // current values are for testing
@@ -77,6 +80,9 @@ public:
     void DrawEnemies();
     void DrawPlayer();
     void DrawExplosions();
+
+    void setHighscore();
+    void printHighscore();
 };
 
 #endif
