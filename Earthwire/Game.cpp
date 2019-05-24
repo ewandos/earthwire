@@ -283,6 +283,12 @@ void Game::PlayerRecharges()
 */
 }
 
+void Game::DrawPause()
+{
+    gb.display.setCursor(30, 25);
+    gb.display.print("PAUSE");
+}
+
 void Game::setHighscore()
 {
   if (this->p1->score > this->highscore[MAX_HIGHSCORES-1])

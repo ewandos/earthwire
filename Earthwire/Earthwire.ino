@@ -11,7 +11,9 @@ Game *game = new Game();
 
 enum GameState
 {
-    inGame, gameOver
+    inGame,
+    gameOver,
+    paused
 };
 
 int gameState = inGame;
@@ -24,7 +26,7 @@ int gameState = inGame;
 
 void setup()
 {
-    gb.begin(); 
+    gb.begin();
 }
 
 /*
@@ -35,55 +37,74 @@ void setup()
 
 void loop()
 {
-    while (!gb.update());
+    while (!gb.update())
+        ;
 
-    if (gameState == inGame)
+    if (gameState == inGame || gameState == paused)
     {
 
         /*
         * U S E R   I N P U T
         */
 
-        if (gb.buttons.repeat(BUTTON_UP, 1))
-            game->p1->Move('n');
-
-        if (gb.buttons.repeat(BUTTON_DOWN, 1))
-            game->p1->Move('s');
-
-        if (gb.buttons.repeat(BUTTON_LEFT, 1))
-            game->p1->Move('w');
-
-        if (gb.buttons.repeat(BUTTON_RIGHT, 1))
-            game->p1->Move('e');
-
-        // Player's Ability to shoot (!Testing!)
-        if (gb.buttons.pressed(BUTTON_A))
+        if (gameState == inGame)
         {
-            game->PlayerShoots();
+            if (gb.buttons.repeat(BUTTON_UP, 1))
+                game->p1->Move('n');
+
+            if (gb.buttons.repeat(BUTTON_DOWN, 1))
+                game->p1->Move('s');
+
+            if (gb.buttons.repeat(BUTTON_LEFT, 1))
+                game->p1->Move('w');
+
+            if (gb.buttons.repeat(BUTTON_RIGHT, 1))
+                game->p1->Move('e');
+
+            // Player's Ability to shoot (!Testing!)
+            if (gb.buttons.pressed(BUTTON_A))
+            {
+                game->PlayerShoots();
+            }
+            // Recharging mechanic
+            if (gb.buttons.pressed(BUTTON_B) || game->p1->recharging) // Right now this gets called per frame (mostly because it's the easiest and cleanest method)
+            {
+                game->PlayerRecharges();
+            }
         }
-        // Recharging mechanic
-        if (gb.buttons.pressed(BUTTON_B) || game->p1->recharging) // Right now this gets called per frame (mostly because it's the easiest and cleanest method)
+        
+        if (gb.buttons.pressed(BUTTON_MENU) && gameState != gameOver && !game->p1->isDestroyed)
         {
-            game->PlayerRecharges();
+            if (gameState == inGame)
+                gameState = paused;
+            else
+                gameState = inGame;
         }
 
-        /*
+        if (gameState == inGame) //if paused, stop all calculations
+        {
+            /*
         * C A L C U L A T O N
         */
 
-        game->SpawnEnemies();
-        game->LetEnemiesShoot();
-        game->CheckEnemiesStatus();
-        game->MoveProjectiles();
+            game->SpawnEnemies();
+            game->LetEnemiesShoot();
+            game->CheckEnemiesStatus();
+            game->MoveProjectiles();
 
-        if (!game->CheckPlayerStatus())
-        {
-            gameState = gameOver;
+            if (!game->CheckPlayerStatus())
+            {
+                gameState = gameOver;
+            }
         }
 
-
         gb.display.clear(); // clear the previous screen
-
+        if (gameState == paused)
+        {
+            game->DrawPause();
+            if (gb.buttons.pressed(BUTTON_A))
+                gameState = inGame;
+        }
         /*
          * D R A W I N G   U S E R  I N T E R F A C E
          */
@@ -125,14 +146,14 @@ void loop()
         game->DrawEnemies();
         game->DrawPlayer();
         game->DrawExplosions();
-
-    } else if (gameState == gameOver)
+    }
+    else if (gameState == gameOver)
     {
         gb.display.clear();
         gb.sound.fx(mySfx);
         game->setHighscore();
         game->printHighscore();
-        gb.display.setCursor(7,(gb.display.height()-10));
+        gb.display.setCursor(7, (gb.display.height() - 10));
         gb.display.print("Press Button 'A'");
 
         if (gb.buttons.pressed(BUTTON_A))
@@ -142,5 +163,4 @@ void loop()
             gameState = inGame;
         }
     }
-
 }

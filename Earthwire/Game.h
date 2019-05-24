@@ -80,6 +80,7 @@ public:
     void DrawEnemies();
     void DrawPlayer();
     void DrawExplosions();
+    void DrawPause();
 
     void setHighscore();
     void printHighscore();
