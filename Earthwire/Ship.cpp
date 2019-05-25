@@ -77,7 +77,7 @@ bool Player::Move(char dir)
             }
             break;
         case 'n':
-            if (this->y > 0)
+            if (this->y > 7)
             {
                 this->y -= (int) this->speed;
                 return true;
@@ -143,9 +143,9 @@ void Player::Recharge()
 * =====================
 */
 
-Enemy::Enemy(int y, int shootingRate)
+Enemy::Enemy(int y)
 {
-    this->shootingRate = shootingRate;
+    this->shootingRate = 100;
     // Enemy needs no parameters for coords, cause of random generation
     // init Random Seed
     this->sizeX = 12; // width of playerSprite

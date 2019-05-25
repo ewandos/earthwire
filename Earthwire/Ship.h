@@ -52,7 +52,7 @@ public:
 class Enemy : public Ship
 {
 public:
-  Enemy(int y, int shootingRate);
+  Enemy(int y);
   ~Enemy();
 
   // Variables

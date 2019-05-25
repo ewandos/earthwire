@@ -4,6 +4,7 @@ Game::Game()
 {
     randomSeed(analogRead(0));
     this->p1 = new Player(8, 9, 'a');
+    this->currMaxEnemiesOnScreen = MAX_ENEMIES_ON_SCREEN;
 
     this->curEnem = 0;
     this->curEnemProj = 0;
@@ -35,6 +36,17 @@ Game::~Game()
         delete ExplosionsArr[i];
 }
 
+void Game::LevelProgress()
+{
+  difficultyTimer++;
+  // increase every 20 seconds (480 frames) the maxEnemiesOnScreen
+  if (difficultyTimer % 480 == 0 && currMaxEnemiesOnScreen < MAX_ENEMIES_SPAWN)
+  {
+    currMaxEnemiesOnScreen++;
+    difficultyTimer = 0;
+  }
+}
+
 void Game::PlayerShoots()
 {
     if (ProjArr[projIndex] != nullptr)
@@ -52,18 +64,32 @@ void Game::PlayerShoots()
 
 void Game::SpawnEnemies()
 {
-    // creating Slots that are sized half the height of enemies prite-height
-    // when enemy is created, the slot is reserved (bool array)
+    // creating Slots that are sized half the height of enemies sprite-height
+    // when enemy is created, the slot is reserved in EnemArr
     // if enemy is deleted slot is free
 
-    // slots array is the enemyArr BUT the spawning should be handled differently
+    // Slot 0 = minY + rangeStep * 0 = 7
+    // Slot 1 = minY + rangeStep * 1 = 11
+    // Slot 2 = minY + rangeStep * 2 = 15
+    // Slot 3 = minY + rangeStep * 3 = 19
+    // Slot 4 = minY + rangeStep * 4 = 23
+    // Slot 5 = minY + rangeStep * 5 = 27
+    // Slot 6 = minY + rangeStep * 6 = 31
+    // Slot 7 = minY + rangeStep * 7 = 35
+    // Slot 8 = minY + rangeStep * 8 = 39
+    // Slot 9 = minY + rangeStep * 9 = 43
+
     int randomSlot = random(MAX_ENEMIES_SPAWN);
 
-    if (curEnem < MAX_ENEMIES_ON_SCREEN && EnemyArr[randomSlot] == nullptr)
+    if (curEnem < currMaxEnemiesOnScreen && EnemyArr[randomSlot] == nullptr)
     {
         if (enemySpawnTimer >= ENEMY_SPAWN_RATE)
         {
-          EnemyArr[randomSlot] = new Enemy(8 * randomSlot, ENEMY_DIFFICULTY); // creating Enemy with shootingRate of 50 (testing!)
+          int minY = 9; // under the UI
+          int maxY = gb.display.height() - 16; // 1 pixel above Screen Bounds
+          int rangeY = maxY - minY; // 36
+          int rangeStep = rangeY / (MAX_ENEMIES_SPAWN - 1); // should be a round number, for Y-Coord calculation
+          EnemyArr[randomSlot] = new Enemy(minY + rangeStep * randomSlot); // creating Enemy with shootingRate of 50 (testing!)
           curEnem++;
           enemySpawnTimer = 0;
         } else
@@ -267,7 +293,7 @@ void Game::PlayerRecharges()
         int timerAux = 0;
         int timerEnd = millis() + timeFrame;
         int AmmoAux = 100 - this->ammunation; // get how much ammo is missing
-        AmmoAux /= timeFrame; // how much ammo per ms (ammo is int?, might be problematic)        
+        AmmoAux /= timeFrame; // how much ammo per ms (ammo is int?, might be problematic)
     }
     timerAux = milis() - timer; // figure out how many ms have passed in the last frame
     for (int i = 0; i < (AmmoAux * timerAux); i++) // add as much ammo you need per ms times the ms that have passed
@@ -330,4 +356,3 @@ void Game::printHighscore()
     }
   }
 }
-

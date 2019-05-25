@@ -37,8 +37,7 @@ void setup()
 
 void loop()
 {
-    while (!gb.update())
-        ;
+    while (!gb.update());
 
     if (gameState == inGame || gameState == paused)
     {
@@ -72,7 +71,7 @@ void loop()
                 game->PlayerRecharges();
             }
         }
-        
+
         if (gb.buttons.pressed(BUTTON_MENU) && gameState != gameOver && !game->p1->isDestroyed)
         {
             if (gameState == inGame)
@@ -86,7 +85,7 @@ void loop()
             /*
         * C A L C U L A T O N
         */
-
+            game->LevelProgress();
             game->SpawnEnemies();
             game->LetEnemiesShoot();
             game->CheckEnemiesStatus();

@@ -18,19 +18,16 @@
 * The functions remained the same. There a just a few name changes.
 * I quit to use the "this->" pointer, cause the class takes no parameters or extern
 * variables.
-*
-*
 */
 
-#define MAX_ENEMIES_SPAWN 8 // actually number of slots where enemys can spawn, to prevent that they flying behind each other
+#define MAX_ENEMIES_SPAWN 7 // actually number of slots where enemys can spawn, to prevent that they flying behind each other
 #define ENEMY_SPAWN_RATE 20 // spawn enemy every x frames after another
-#define MAX_ENEMIES_ON_SCREEN 2 // maximum enemies that are on screen at the same time
+#define MAX_ENEMIES_ON_SCREEN 1 // maximum enemies that are on screen at the same time
 #define MAX_PLAYER_PROJECTILES 10
 #define MAX_ENEMY_PROJECTILES 5
 #define MAX_EXPLOSIONS MAX_ENEMIES_SPAWN + 1
 #define POINTS_PER_KILLED_ENEMY 5
 #define MINUS_POINTS_PER_MISSED_ENEMY 10
-#define ENEMY_DIFFICULTY 100
 #define MAX_HIGHSCORES 5
 
 class Game
@@ -44,6 +41,8 @@ public:
      */
 
     Player *p1;
+    int difficultyTimer;
+    int currMaxEnemiesOnScreen;
 
     int curEnem;  // current number of enemies on screen
     int curEnemProj;  // current number of enemie projectiles
@@ -64,6 +63,8 @@ public:
      */
 
     // Calculation
+    void LevelProgress(); // calculates Time and changes values
+
     void PlayerShoots();
     void PlayerRecharges(); // wrapper function for ammo recharge
     void SpawnEnemies();
